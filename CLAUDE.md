@@ -11,17 +11,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 阶段路线
 
 - **第一阶段(已完成,2026 年 7 月):** 通读指南,建立能力地图。
-- **第二阶段(进行中):** 指南 §7 定义的项目化实践闭环 —— 围绕一个小型 CV 任务,完成:论文选读 → 代码复现 → 实验记录 → 对比分析 → 报告写作。计划与进度见 `stage2/PLAN.md`。
+- **第二阶段(进行中):** 指南 §7 定义的项目化实践闭环 —— 围绕一个小型 CV 任务,完成:论文选读 → 代码复现 → 实验记录 → 对比分析 → 报告写作。计划与进度见 `example/PLAN.md`。
 
 ## 第二阶段目录结构
 
 ```
-stage2/
+templates/            # 任务无关模板(PLAN / 论文笔记 / 复现清单 / 实验记录)
+example/
 ├── PLAN.md            # 任务决定、阶段划分、退出标准 —— 先读这个
 ├── papers/            # 每篇必读论文一份笔记(paper-notes-template.md)
 ├── repro/             # 克隆的上游仓库 + repro-checklist.md
 ├── experiments/       # 每次实验一份记录(experiment-log-template.md)
 └── report/            # LaTeX 报告(Phase 4 创建)
+runs/                  # 读者工作区
 ```
 
 ## 约定
@@ -29,7 +31,7 @@ stage2/
 - 方法论一律锚定指南章节:复现走 §6.3 的阶梯(环境 → demo → checkpoint 评测 → 小规模训练 → 完整训练);环境排查按 Table 6;实验记录必含 §6.4 的五类信息;对比遵守 §6.6 与 Table 7 的 baseline / ablation / fair comparison 纪律;论文筛选按 Table 4 三层分级 + §4.3 三轮阅读。
 - 实验记录在启动运行**之前**从模板创建,不要事后补。
 - 实验结论写成条件化判断(指标在什么条件下从 X 变到 Y、代价是什么),禁止只写"效果变好"。
-- 上游代码克隆到 `stage2/repro/<name>/` 并在其中修改;数据集和 checkpoint 不放进本工作区(或只放在克隆仓库自己的数据目录里)。
+- 上游代码克隆到 `example/repro/<name>/` 并在其中修改;数据集和 checkpoint 不放进本工作区(或只放在克隆仓库自己的数据目录里)。
 - 工作语言:本仓库全部内容(笔记、记录、报告、本文件)使用中文;代码、命令、标识符及英文术语(loss function、baseline、ablation、checkpoint 等)保留英文,与指南行文风格一致。
 
 ## Agent skills

@@ -22,7 +22,9 @@ Single-context 仓库(本仓库当前采用):
 ├── docs/adr/
 │   ├── 0001-<决策>.md
 │   └── 0002-<决策>.md
-└── stage2/
+├── templates/
+├── example/
+└── runs/
 ```
 
 Multi-context 仓库(标志是根目录出现 `CONTEXT-MAP.md`):
