@@ -64,3 +64,5 @@
 
 - 2026-07-07 —— 第二阶段脚手架完成(计划 + 模板);仓库语言切换为中文。任务选择待确认。
 - 2026-07-07 —— 三分结构落位(#2):`stage2/` 拆分为 `templates/`(任务无关模板)与 `example/`(本文件,作者验证跑);任务无关内容暂存于本文件顶部注释区,待 #3 上收进 README。
+- 2026-07-07 —— Phase 1 验证跑(#7):完成 ResNet 种子论文三轮笔记([papers/he2016-deep-residual-learning.md](papers/he2016-deep-residual-learning.md))与引文检索/分级简记([papers/citation-triage.md](papers/citation-triage.md))。笔记中"相关性 / 贡献 / 局限"三处判断按 issue #7 的作者参与点约定留空待作者本人填写,未替作者代笔。
+- 2026-07-07 —— Phase 0 验证跑完成(#6):conda 环境 `cvpractice`(Python 3.11.15 + torch 2.12.1 + torchvision 0.27.1)在 Apple M5 / macOS 27.0 上装成,MPS 可用;MNIST 冒烟(极小 CNN,2 epoch)跑通,test_acc 0.9807 → 0.9873。记录见 [experiments/EXP-00-phase0-env-mnist-smoke.md](experiments/EXP-00-phase0-env-mnist-smoke.md)。
