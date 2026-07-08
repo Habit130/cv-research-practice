@@ -33,7 +33,7 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 3. 一台能跑 PyTorch 的机器,三条路径任选其一:
    - **本机 NVIDIA GPU(CUDA)**:最常规的路径;
    - **Apple Silicon(MPS)**:`example/` 的验证跑即走此路径,可行性已验证;
-   - **租用 GPU 服务器**:适合本机没有加速设备的读者;具体服务商与链接由作者补充——`TODO(#5)`。
+   - **租用 GPU 服务器**:适合本机没有加速设备的读者。作者推荐 [优云智算 Compshare](https://passport.compshare.cn/register?referral_code=32azz6jfCsUEdtSr0CwjsW)(UCloud 优刻得旗下):按小时计费、关机不收费,单张 RTX 4090 约 1–3 元/小时(以[官方价格页](https://www.compshare.cn/price-list)为准),足够覆盖本仓库任务梯度的全部三档。
 
 最低档任务 MNIST 纯 CPU 即可跑通,因此没有加速设备也能完成 Phase 0 并开始闭环。
 
