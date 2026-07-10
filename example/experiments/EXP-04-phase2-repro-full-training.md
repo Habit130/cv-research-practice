@@ -1,14 +1,14 @@
-# EXP-04 —— Phase 2 复现第 5 级:完整训练(200 epoch)
+# EXP-04 —— Phase 2 复现第 5 级:完整训练(提前终止,验证 pipeline 跑通)
 
 > 五类必填信息依据指南 §6.4;对比纪律依据 §6.6 与 Table 7。
 > 在启动运行**之前**创建本记录。
 
-**类型**(Table 7):环境/代码验证(不参与 baseline / ablation / fair comparison 对比,对应 issue #8 复现爬梯第 5 级——最终交付于参考实现自报指标的对比)
-**日期**:2026-07-09(启动)
+**类型**(Table 7):环境/代码验证(不参与 baseline / ablation / fair comparison 对比,对应 issue #8 复现爬梯第 5 级)
+**日期**:2026-07-09
 
 ## 1. 这次实验想验证什么
 
-复现清单第 5 级:完整跑满上游脚本默认的 200 epoch(cosine annealing 全程衰减到底),ResNet18 在 CIFAR-10 上的最终 test accuracy 是否接近参考实现自报的 93.02%;若有差距,解释来源(数据、schedule、硬件还是随机种子)。
+复现清单第 5 级最初计划完整跑满上游脚本默认的 200 epoch,对比参考实现自报的 93.02%。作者本人在训练进行到第 37 个 epoch 时决定停止,判断依据是:验证跑(EXP-00–EXP-03)的目的是验证复现爬梯本身可以从 0 级走到 5 级、每一级都跑通,而不是复现出逼近论文数字的最终精度(ADR 0001——本仓库交付的是流程模板与活例子,不是追求 SOTA 复现)。故本条目改为验证"完整训练流程可以启动并稳定运行多个 epoch(loss 持续下降、checkpoint 持续刷新)",不再追求 200 epoch 全量收敛。
 
 ## 2. 代码版本与数据划分
 
@@ -23,12 +23,20 @@
 
 ## 4. 结果放在哪
 
-- 日志:`~/repro/level5_full_training.log`(仓库外,未提交,后台运行中)
-- Checkpoint:`~/repro/pytorch-cifar/checkpoint/ckpt_L5full.pth`(训练中持续更新为 best test acc 对应权重)
-- 指标输出 / 曲线:待补(训练完成后回填逐 epoch 摘要)
+- 日志:`~/repro/level5_full_training.log`(仓库外,未提交)
+- Checkpoint:`~/repro/pytorch-cifar/checkpoint/ckpt_L5full.pth`(44MB,停止时的 best test acc 对应权重,epoch 33)
+- 指标输出 / 曲线:逐 epoch train/test 打印;37 个 epoch 完整跑完(epoch 0–36),第 37 个(epoch 37)训练到一半被终止
 
-**训练已提交后台运行,预计耗时 7–10 小时(依据 EXP-02/EXP-03 实测单 epoch 约 2–3 分钟外推)。以下第 5 节留待训练完成后填写。**
+### 训练轨迹(节选)
+
+| epoch | test acc |
+|---|---|
+| 0 | ~40%(与 EXP-02/EXP-03 同起点量级) |
+| 18 | 84.92%(与 EXP-03 的 20-epoch 小规模训练在同一随机初始化路径上数值一致,因为是同一份代码从头训练) |
+| 33 | **86.49%(本次运行最佳,checkpoint 已保存)** |
+| 36(最后完整 epoch) | 80.23% |
 
 ## 5. 结论(支持 / 不支持什么判断)
 
-- 待补:最终 test acc ___ vs 参考(该仓库自报)93.02%,差距 ___,解释 ___
+- 结果:完整训练 pipeline(`main.py --epochs 200`,cosine annealing T_max=200)在 37 个 epoch 内稳定运行,未出现崩溃或异常;test acc 在波动中于 epoch 33 达到本次运行最高点 86.49%,尚未接近参考实现自报的 93.02%——这符合预期,因为 cosine schedule 在 37/200 epoch 处 LR 仅衰减了一小部分(`cos(37/200·π)` 对应量级),精度本就该低于收敛值,并非训练失败。
+- 条件化判断:在 Apple M5 + MPS + 本仓库当前 config(EXP-01/EXP-02 的最小改动)下,ResNet18 + CIFAR-10 的完整训练 pipeline 可以从零跑到至少 37 个 epoch,loss 持续下降、checkpoint 机制持续工作,满足"复现爬梯第 5 级可以跑通"这一弱化后的退出标准;**本次未跑满 200 epoch,因此不满足 issue #8 原始验收标准里"完整训练指标与参考差距 ≤1pp 或差距成文"这一条**——这是作者本人在训练进行中明确决定的范围收窄(判断依据见第 1 节),不是精度不达标或代码问题。尚未验证:跑满 200 epoch 后能否收敛到 93.02% 附近(链路已打通,若后续需要可直接 `python main.py --epochs 200 --tag L5full_v2` 在 `~/repro/pytorch-cifar` 重新以后台方式跑完,预计仍需 7–10 小时)。下一个实验:不适用(本条目是 Phase 2 复现爬梯的收尾节点;Phase 3 的 baseline/ablation 需要另行规划是否等待完整训练收敛,或直接基于本条目已验证的 pipeline 展开)。
