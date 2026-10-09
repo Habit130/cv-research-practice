@@ -41,5 +41,7 @@
 - 完整 patch SHA256:`3014e72138c30d6c1a2b278ccf955449eeb1d9f1e8d3ee96cfbfb59967a05f0d`;runner SHA256:`229f308399479d2171c987f630791400aecef54468c8e019e0d3670f885390b9`。patch 含完整新增 runner 和模型改动,留在仓库外。
 - 在第 2 节目录运行:`/opt/homebrew/Caskroom/miniforge/base/envs/cvpractice/bin/python -u phase3.py --variant baseline`。
 - 队列入口 `run_phase3_queue.py`,顺序 baseline → no-shortcut → constant-lr,每组 200 epoch,任一失败停止。状态 `artifacts/queue-state.json`,PID `artifacts/queue-pid.txt`。
+- **Phase 2 验收闸门**:2026-10-09 Codex review 后已向队列父进程 PID 74276 发送 SIGSTOP,baseline 子进程继续运行,两个 ablation 不会被调度。闸门记录 `artifacts/phase2-gate.json`;恢复前必须核对 baseline 的 200 条指标、completed.json、最终 checkpoint hash,将最终结果、与参考实现 93.02% 的差距及限制写入本记录和 Phase 2 复现清单,发布记录后才可 SIGCONT。不能用尚未完成的曲线值验收。
+- 实际执行代码已发布到持久 fork:[Habit130/pytorch-cifar @ 2f737a307973c2ef3cb8deb4be22657f093dd4be](https://github.com/Habit130/pytorch-cifar/commit/2f737a307973c2ef3cb8deb4be22657f093dd4be)。该 commit 基于上游 `49b7aa9`,只增加 `phase3.py` 和 BasicBlock shortcut 开关,与本次运行文件 SHA256 一致;不含数据、权重或缓存。其任务分支为 `codex/cv-phase3-full-ablation`,通过 commit URL 可在其他环境获取训练代码。
 - 数据恢复与检查见 [EXP-08](EXP-08-phase3-preflight.md)。每组启动前保存 `artifacts/<variant>/preflight.log`;完成须核对 200 条 epoch 指标和 `completed.json`。
 - no-shortcut 保留投影参数但不执行相加,注册参数量不等于参与计算参数量。加载权重须根据 checkpoint variant 恢复 BasicBlock.use_shortcut=False。
