@@ -4,7 +4,7 @@
 
 **类型**:baseline
 **日期**:2026-10-09
-**状态**:完整 200 epoch 已完成,最终权重和指标已核验;两组 ablation 等待本记录及 Phase 2 结果发布后放行。
+**状态**:完整 200 epoch 已完成,最终权重和指标已核验。Phase 2 结果于提交 `3e68c0b` 发布后已解除队列闸门;EXP-06 已完成,EXP-07 已启动。
 
 ## 1. 这次实验想验证什么
 
@@ -33,7 +33,7 @@
 
 ## 5. 结论(支持 / 不支持什么判断)
 
-在本记录的 Apple M5 / MPS、CIFAR-10 官方划分、seed=20261009 和完整 200 epoch 条件下,最终 epoch 的 test accuracy 为 **95.45%**,test loss 为 **0.1730995893**;train accuracy 为 99.998%,train loss 为 0.0016433455。训练和逐 epoch 评测累计耗时 18761.22599 秒(约 5.2115 小时,不含下载和 preflight)。本组作为 EXP-06/07 的固定 final-epoch 对照,两组尚未运行,不能提前得出因素效果结论。
+在本记录的 Apple M5 / MPS、CIFAR-10 官方划分、seed=20261009 和完整 200 epoch 条件下,最终 epoch 的 test accuracy 为 **95.45%**,test loss 为 **0.1730995893**;train accuracy 为 99.998%,train loss 为 0.0016433455。训练和逐 epoch 评测累计耗时 18761.22599 秒(约 5.2115 小时,不含下载和 preflight)。本组作为 EXP-06/07 的固定 final-epoch 对照;已完成的 shortcut 对比见 [EXP-06](EXP-06-phase3-no-shortcut.md),LR schedule 对比须等待 [EXP-07](EXP-07-phase3-constant-lr.md) 完整结束。
 
 Phase 2 复现参考核对另用整段训练的 **best test accuracy 95.60% @ epoch 189**,与上游自报 93.02% 相差 +2.58 percentage points。best 是从同一 test 集逐 epoch 观察得到的诊断指标,不是无偏模型选择评估;本次没有保留 epoch 189 权重,只保留最终权重。该值不得替代预登记的 final accuracy 作为三组主比较。
 
@@ -47,7 +47,7 @@ Phase 2 复现参考核对另用整段训练的 **best test accuracy 95.60% @ ep
 - 完整 patch SHA256:`3014e72138c30d6c1a2b278ccf955449eeb1d9f1e8d3ee96cfbfb59967a05f0d`;runner SHA256:`229f308399479d2171c987f630791400aecef54468c8e019e0d3670f885390b9`。patch 含完整新增 runner 和模型改动,留在仓库外。
 - 在第 2 节目录运行:`/opt/homebrew/Caskroom/miniforge/base/envs/cvpractice/bin/python -u phase3.py --variant baseline`。
 - 队列入口 `run_phase3_queue.py`,顺序 baseline → no-shortcut → constant-lr,每组 200 epoch,任一失败停止。状态 `artifacts/queue-state.json`,PID `artifacts/queue-pid.txt`。
-- **Phase 2 验收闸门**:Codex review 后已向队列父进程 PID 74276 发送 SIGSTOP,baseline 子进程完成全部训练,两个 ablation 尚未被调度。200 条指标、completed.json、最终 checkpoint hash 已核验,最终结果、best-to-best 参考差距及限制已写入本记录与 Phase 2 复现清单。发布记录后才可 SIGCONT;实时放行状态保存在 `artifacts/phase2-gate.json`。不以未完成曲线值验收,不把 final accuracy 与 best 参考指标直接作差。
+- **Phase 2 验收闸门历史**:首次 Codex review 后向队列父进程 PID 74276 发送 SIGSTOP,baseline 子进程继续完成全部训练;暂停期间两个 ablation 未被调度。随后核验 200 条指标、completed.json、最终 checkpoint hash,将最终结果、best-to-best 参考差距及限制写入本记录与 Phase 2 复现清单,于 2026-10-09 发布提交 `3e68c0b`。发布后向父进程发送 SIGCONT,`artifacts/phase2-gate.json` 标记为 `released_after_published_record`,并记录该提交。队列随后依次调度 no-shortcut 和 constant-lr;截至提交 `b26adbd`,前者已完成 200 epoch,后者已启动。以上放行未宣称满足原始 ≤1pp 数值门槛,不以未完成曲线值验收,不把 final accuracy 与 best 参考指标直接作差。
 - 实际执行代码已发布到持久 fork:[Habit130/pytorch-cifar @ 2f737a307973c2ef3cb8deb4be22657f093dd4be](https://github.com/Habit130/pytorch-cifar/commit/2f737a307973c2ef3cb8deb4be22657f093dd4be)。该 commit 基于上游 `49b7aa9`,只增加 `phase3.py` 和 BasicBlock shortcut 开关,与本次运行文件 SHA256 一致;不含数据、权重或缓存。其任务分支为 `codex/cv-phase3-full-ablation`,通过 commit URL 可在其他环境获取训练代码。
 - 数据恢复与检查见 [EXP-08](EXP-08-phase3-preflight.md)。每组启动前保存 `artifacts/<variant>/preflight.log`;完成须核对 200 条 epoch 指标和 `completed.json`。
 - no-shortcut 保留投影参数但不执行相加,注册参数量不等于参与计算参数量。加载权重须根据 checkpoint variant 恢复 BasicBlock.use_shortcut=False。
