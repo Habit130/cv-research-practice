@@ -4,7 +4,7 @@
 
 **类型**:ablation
 **日期**:2026-10-09
-**状态**:队列中,等待 baseline 完整结束及 Phase 2 验收记录发布后放行;未产生指标。
+**状态**:完整 200 epoch 已完成,最终指标与权重已核验。
 
 ## 1. 这次实验想验证什么
 
@@ -33,7 +33,13 @@
 
 ## 5. 结论(支持 / 不支持什么判断)
 
-尚未运行,无结果。完成后对比 EXP-05 的最终 accuracy、loss、耗时,只支持本设备、划分、seed 和完整预算下的判断。不得用历史或参考数字代填本次指标。
+在与 [EXP-05](EXP-05-phase3-baseline.md) 相同的 Apple M5 / MPS、官方 CIFAR-10 划分、seed=20261009、SGD 与 200 epoch cosine 预算下,只关闭 BasicBlock shortcut 相加,最终 test accuracy 从 95.45% 变为 **95.11%**(-0.34 percentage points),test loss 从 0.1730995893 变为 **0.2076407678**。本组最终 train accuracy 为 99.998%,train loss 为 0.0016996589。
+
+训练及逐 epoch 评测累计耗时 **18621.03799 秒**(约 **5.1725 小时**,不含下载和 preflight),baseline 为 18761.22599 秒;本次耗时减少约 140.188 秒。投影分支保留参数但不执行,注册参数量相同,参与计算的参数与算子减少;两组按顺序运行,未控制温度及后台负载,不能将小幅耗时差直接归因于结构变化。
+
+结果只支持本设备、划分、单 seed 和固定预算下的观察:关闭 shortcut 后,本次最终 test accuracy 略低、test loss 较高。它不支持该差异有统计显著性、所有任务都会退化或 shortcut 是本次差异唯一确定原因的判断;尚未验证多 seed、其他深度及设备。下一组为 EXP-07 固定 LR,主指标仍采用最终 epoch。
+
+核验:metrics.jsonl 含连续 epoch 1–200,所有 loss/accuracy 有限,每轮样本数 50000 train / 10000 test;completed.json 与 last.pth 的 epoch=200、variant=no-shortcut、seed=20261009、final metrics 全部一致。最终 checkpoint SHA256:`20b8af9216e1b04302796e66666655cf176d6a216eaa742048de054159604bcf`;metrics.jsonl SHA256:`d512723452ecb086601f8227de766220252cb0fe48d3ea5dc82ba080f250319e`。仅在 CPU 加载权重元数据,未执行 CPU 模型评测;训练实际使用 MPS。
 
 ## 运行与交接
 
