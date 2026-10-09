@@ -115,4 +115,4 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 
 ## 维护者层
 
-仓库里的 [CLAUDE.md](CLAUDE.md)、[CONTEXT.md](CONTEXT.md) 与 [docs/](docs/) 是维护者与 AI 协作层,走闭环时可以无视;附带的好处是——用 Claude Code 的读者克隆本仓库,打开即得一个已经懂这套流程、会守上述纪律的助手。
+仓库里的 [AGENTS.md](AGENTS.md)、[CLAUDE.md](CLAUDE.md)、[CONTEXT.md](CONTEXT.md) 与 [docs/](docs/) 是维护者与 AI 协作层,走闭环时可以无视。Codex Local 与 Codex Cloud 共同读取根目录 `AGENTS.md`;Claude Code 通过 `CLAUDE.md` 导入同一份规范。`CONTEXT.md` 保留为项目术语与背景的权威来源。各环境通过 GitHub 任务分支与 PR 交接,硬件验证须在实际 MPS/CUDA 设备上完成。
