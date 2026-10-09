@@ -4,7 +4,7 @@
 
 **类型**:ablation
 **日期**:2026-10-09
-**状态**:前两组已结束,本组已在 MPS 启动,尚无完整 200 epoch 指标。
+**状态**:完整 200 epoch 已完成,最终指标与权重已核验;三组队列已结束。
 
 ## 1. 这次实验想验证什么
 
@@ -33,7 +33,23 @@
 
 ## 5. 结论(支持 / 不支持什么判断)
 
-运行中,尚无完整结果。完成后对比 EXP-05 的最终 accuracy、loss、耗时,只支持本设备、划分、seed 和完整预算下的判断。不得用历史或参考数字代填本次指标。
+在与 [EXP-05](EXP-05-phase3-baseline.md) 相同的 Apple M5 / MPS、官方 CIFAR-10 划分、seed=20261009、ResNet18、SGD 和 200 epoch 预算下,只将 cosine schedule 改为固定 LR 0.1,最终 test accuracy 从 95.45% 变为 **86.88%**(-8.57 percentage points),test loss 从 0.1730995893 变为 **0.3807913750**。最终 train accuracy 为 89.674%,train loss 为 0.3008817615。
+
+训练及逐 epoch 评测累计耗时 **18047.82443 秒**(约 **5.0133 小时**,不含下载和 preflight),比 baseline 少约 713.402 秒。三组顺序执行,未控制温度及后台负载,耗时差不能作为 schedule 的因果效率证据。结果只支持本设备、数据划分、单 seed、固定 200 epoch 下,固定 LR 0.1 的最终 accuracy 较低、loss 较高;不支持统计显著性、所有固定 LR 都较差或其他预算/设备下相同的判断。尚未验证多 seed、其他固定 LR、延长训练预算和 CUDA。
+
+核验:metrics.jsonl 含连续 epoch 1–200,各轮 LR 均为 0.1,所有 loss/accuracy 有限,每轮样本数 50000 train / 10000 test;completed.json 与 last.pth 的 epoch=200、variant=constant-lr、seed=20261009、final metrics 全部一致。最终 checkpoint SHA256:`ef6ef94807e9441ddf21d0b4dcad014a0184d28e609bea9208dd7002275c340f`;metrics.jsonl SHA256:`3c4eb0102648261a87ac663860fc926d344680e39d44f48ded9e56023a76fc24`。仅在 CPU 加载权重元数据,未执行 CPU 模型评测;训练实际使用 MPS。数据归档与 train/test/meta MD5、runner 与 patch SHA256 在三组结束后重新核对通过。
+
+### 完整 200 epoch 对照表
+
+每组只与 baseline 作单因素比较;两组 ablation 之间同时存在 shortcut 与 schedule 两项差异,不作单因素归因。表中均为固定第 200 epoch 的真实指标,不使用 best test accuracy。
+
+| 记录 | 唯一改动(相对 baseline) | final test accuracy | 差值(pp) | final test loss | 训练及评测耗时(h) |
+| --- | --- | --- | --- | --- | --- |
+| [EXP-05](EXP-05-phase3-baseline.md) | 无 | 95.45% | 0 | 0.1730995893 | 5.2115 |
+| [EXP-06](EXP-06-phase3-no-shortcut.md) | 关闭 shortcut 相加 | 95.11% | -0.34 | 0.2076407678 | 5.1725 |
+| 本记录 | cosine → 固定 LR 0.1 | 86.88% | -8.57 | 0.3807913750 | 5.0133 |
+
+三组训练及逐 epoch 评测累计 **55430.08841 秒(约 15.3972 小时)**,不含数据准备、preflight、门禁等待和审查。结论为据日志整理的条件化草稿,仍须作者本人终审;不能据单 seed 断言统计显著性。
 
 ## 运行与交接
 

@@ -29,7 +29,7 @@
 
 - artifacts/environment.json: 真实环境与数据/代码 hash。
 - artifacts/data-prepare.log: 官方源失败;artifacts/mirror-download.log: 镜像下载。
-- artifacts/<variant>/preflight.log: 队列每组启动前保存;未启动组尚无队列日志。启动前已另在终端检查三组。
+- artifacts/<variant>/preflight.log: 队列每组启动前保存;三组均已启动并完成,各有对应队列日志。启动前已另在终端检查三组。
 - preflight 不产训练 checkpoint 或 accuracy。
 
 ## 5. 结论(支持 / 不支持什么判断)

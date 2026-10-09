@@ -4,7 +4,7 @@
 
 **类型**:baseline
 **日期**:2026-10-09
-**状态**:完整 200 epoch 已完成,最终权重和指标已核验。Phase 2 结果于提交 `3e68c0b` 发布后已解除队列闸门;EXP-06 已完成,EXP-07 已启动。
+**状态**:完整 200 epoch 已完成,最终权重和指标已核验。Phase 2 结果于提交 `3e68c0b` 发布后已解除队列闸门;EXP-06/07 均已完成 200 epoch。
 
 ## 1. 这次实验想验证什么
 
@@ -33,7 +33,7 @@
 
 ## 5. 结论(支持 / 不支持什么判断)
 
-在本记录的 Apple M5 / MPS、CIFAR-10 官方划分、seed=20261009 和完整 200 epoch 条件下,最终 epoch 的 test accuracy 为 **95.45%**,test loss 为 **0.1730995893**;train accuracy 为 99.998%,train loss 为 0.0016433455。训练和逐 epoch 评测累计耗时 18761.22599 秒(约 5.2115 小时,不含下载和 preflight)。本组作为 EXP-06/07 的固定 final-epoch 对照;已完成的 shortcut 对比见 [EXP-06](EXP-06-phase3-no-shortcut.md),LR schedule 对比须等待 [EXP-07](EXP-07-phase3-constant-lr.md) 完整结束。
+在本记录的 Apple M5 / MPS、CIFAR-10 官方划分、seed=20261009 和完整 200 epoch 条件下,最终 epoch 的 test accuracy 为 **95.45%**,test loss 为 **0.1730995893**;train accuracy 为 99.998%,train loss 为 0.0016433455。训练和逐 epoch 评测累计耗时 18761.22599 秒(约 5.2115 小时,不含下载和 preflight)。本组作为 EXP-06/07 的固定 final-epoch 对照;已完成的 shortcut 对比见 [EXP-06](EXP-06-phase3-no-shortcut.md),LR schedule 对比与三组汇总表见 [EXP-07](EXP-07-phase3-constant-lr.md)。
 
 Phase 2 复现参考核对另用整段训练的 **best test accuracy 95.60% @ epoch 189**,与上游自报 93.02% 相差 +2.58 percentage points。best 是从同一 test 集逐 epoch 观察得到的诊断指标,不是无偏模型选择评估;本次没有保留 epoch 189 权重,只保留最终权重。该值不得替代预登记的 final accuracy 作为三组主比较。
 
