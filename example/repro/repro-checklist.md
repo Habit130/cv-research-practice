@@ -36,6 +36,8 @@
 
 - [x] `--epochs 200` 完整训练 pipeline 已启动并稳定跑完 37 个 epoch(loss 持续降、checkpoint 持续刷新,best test acc 86.49% @ epoch 33),验证跑通;**作者本人训练进行中决定提前终止,不追求 200 epoch 收敛到参考的 93.02%**(验证跑的目的是走通爬梯本身,ADR 0001),故本级未满足"最终指标 vs 参考差距 ≤1pp 或成文解释"这条原始验收标准——范围收窄的决策记录见 [EXP-04](../experiments/EXP-04-phase2-repro-full-training.md) 第 1/5 节与 issue #8 收尾评论
 
+- [x] 2026-10-09 后续补跑完整 200 epoch:[EXP-05](../experiments/EXP-05-phase3-baseline.md) 同时提供 Phase 3 baseline 与本级完整训练证据。MPS、seed=20261009,epoch 1–200、completed.json 和最终权重元数据核验一致。final test accuracy 95.45%;用于上游参考核对的 best test accuracy 95.60% @ epoch 189,对上游 best 口径的自报 93.02% 差 +2.58pp。达到自报准确率,但绝对差超过原始 ≤1pp 门槛;上游 seed/设备/精确环境未固定,不能将差异归因于某因素或声称条件完全对齐。完整预算、结果和比较限制已成文,不宣称满足 ≤1pp 数值门槛。三组 ablation 的预登记主指标仍是固定 final epoch,不改为 best。历史 EXP-04 的提前终止事实保留。Phase 3 在这份完整结果记录发布后放行。
+
 ## §3.5 验证笔记 —— 针对我改过的任何代码
 
 对上游 `main.py` / `utils.py` 做了三处最小改动:新增 MPS 设备分支(原代码只判断 `cuda`/`cpu`)、新增 `--epochs`/`--tag` CLI 参数(避免每级复现覆盖同一个 `checkpoint/ckpt.pth`)、`utils.py` 的 `stty size` 探测加了 try/except 兜底(后台无 tty 运行时原代码会抛异常)——diff 见 [EXP-01](../experiments/EXP-01-phase2-repro-env-setup.md);第 3 级实跑时另发现并修复 `num_workers=2` 在 macOS 上触发 multiprocessing spawn 递归死锁,改为非 CUDA 设备 `num_workers=0`——diff 见 [EXP-02](../experiments/EXP-02-phase2-repro-short-eval.md)。
