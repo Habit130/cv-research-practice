@@ -1,0 +1,81 @@
+% !TEX program = xelatex
+\documentclass[conference]{IEEEtran}
+\usepackage[UTF8,fontset=fandol,scheme=plain]{ctex}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,
+BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage{amsmath,booktabs,array,balance}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={ResNet-18与CIFAR-10实践闭环验证报告},pdfauthor={Habit130}}
+\title{ResNet-18 与 CIFAR-10 实践闭环验证报告\\
+\large 完整训练与两组单因素 ablation}
+\author{\IEEEauthorblockN{Habit130}
+\IEEEauthorblockA{cv-research-practice 作者验证跑\\作者终审草稿 · 2026-10-10}}
+\begin{document}
+\maketitle
+\begin{abstract}
+本报告记录一个计算机视觉科研实践闭环的作者验证跑：从参考实现出发，建立运行前实验记录，在 Apple M5 / MPS 上完成 ResNet-18 与 CIFAR-10 的 baseline 及两组单因素 ablation，再将结果连接到报告。三组采用相同数据划分、随机种子与完整训练预算。固定最终 epoch 的 test accuracy 分别为 95.45\%、95.11\% 和 86.88\%；关闭 shortcut 相加与固定学习率的差值分别为 $-0.34$ 和 $-8.57$ percentage points。数字对应 EXP-05--07。实验条件下的结论已由作者批准；本文叙事与观点仍待作者终审。本报告不据单 seed 推断统计显著性，也不将参考实现自报数字当作严格匹配条件的对照。
+\end{abstract}
+
+\section{问题为什么重要：把结果连接到证据}
+科研初学者不仅需要跑通训练，还需要说清数据、模型、优化设置、运行条件和指标口径，才能判断一次对比究竟支持什么。本次验证跑的目标是检查本仓库使用文档中的实践闭环：论文选读、代码复现、实验记录、对比分析、报告写作。它是一个小型分类任务上的过程验证，不以产生新的模型方法或达到论文最优指标为目标。
+
+本报告按理论指南的报告叙事与写作章节组织\cite{guide}。论文阅读以残差网络工作为入口\cite{resnet}；该工作提出残差学习框架以缓解深层网络训练困难。本次把 shortcut 相加作为一个可操控因素，把 LR schedule 作为另一个因素。是否存在差异，交由同条件训练后的真实记录回答，而不是从模型名称预先断言。
+
+\section{已有方法与证据缺口：参考数字的边界}
+采用公开参考实现 \texttt{kuangliu/pytorch-cifar} 的固定提交，随后在仓库外持久 fork 中保存实际 MPS runner 与 shortcut 开关\cite{exp05}。这些实现及 CIFAR-10 数据、权重不进入模板仓库。
+
+早期完整训练在作者决定收窄范围后终止于 epoch 37，因此不能作为本次完整预算、固定 seed 的对照\cite{exp04}。作者随后批准恢复完整预算。新的 baseline 完成后，先核验结果并发布 Phase 2 后续说明，再放行两组 ablation；这一顺序及闸门历史记于 EXP-05。
+
+参考实现自报 accuracy 为 93.02\%。本次 baseline 的 best test accuracy 为 95.60\%（epoch 189），同口径诊断差距为 $+2.58$ percentage points\cite{exp05}。上游自报表没有固定其 seed、设备和精确环境，因此该差距不能归因于某一修改；原始绝对差不超过 1pp 的数值门槛未满足。本次完成完整预算并明确了比较限制，不宣称严格复现验收通过。best 来自逐 epoch 观察同一 test 集，本次未保留对应权重；它只用于参考诊断，不能替代预登记的 final accuracy。
+
+\section{做了什么：固定预算的单因素对照}
+\subsection{数据、模型与配置}
+使用 CIFAR-10 官方 50000 train / 10000 test 划分，不另拆 validation。归档与 train/test/meta 的 MD5 校验通过\cite{exp08}。训练变换为带 padding 的随机裁剪、随机水平翻转、ToTensor 与 Normalize；评测使用 ToTensor 与相同 Normalize。准确率为 test 集正确分类比例，loss 为交叉熵。
+
+三组均为随机初始化的 ResNet18，固定 seed=20261009，采用 SGD，初始 LR 0.1、momentum 0.9、weight decay $5\times10^{-4}$，train/test batch size 为 128/100，训练 200 epoch，DataLoader workers 为 0\cite{exp05,exp06,exp07}。Python、NumPy、torch 与 DataLoader generator 均固定种子；这不意味着 MPS 位级确定性。设备为 Apple M5 / MPS，内存 24 GiB；Python 3.11.15、PyTorch 2.12.1、torchvision 0.27.1、NumPy 2.4.4，macOS 27.2。三组启动前的 MPS 前向、反向与 eval 检查通过，没有 CPU 回退\cite{exp08}。
+
+\subsection{对照因素与指标口径}
+baseline 采用 CosineAnnealingLR，$T_{\max}=200$，每个 epoch 的训练、评测结束后调用 scheduler.step。EXP-06 只关闭所有 BasicBlock 的 shortcut 相加；投影分支参数保留但不参与计算。EXP-07 保留 shortcut，只取消 scheduler.step，将 LR 固定在 0.1\cite{exp05,exp06,exp07}。
+
+每组 ablation 单独与 baseline 比较；两个 ablation 之间同时存在结构与 schedule 差异，不能作单因素归因。主指标预先固定为 epoch 200 的 test accuracy，不按 best test accuracy 选权重。重新加载 no-shortcut 权重时必须依据 checkpoint variant 恢复 \texttt{BasicBlock.use\_shortcut=False}，因为该开关不在 state\_dict 中\cite{exp06}。
+
+\section{实验是否支持结论：观察与限制}
+\begin{table*}[t]
+\centering
+\caption{固定第 200 epoch 的真实结果。每个数值追溯至行末实验记录；耗时含训练和逐 epoch 评测，不含下载、preflight、门禁等待及审查。}
+\label{tab:results}
+\begin{tabular}{@{}lrrrrl@{}}
+\toprule
+设置 & Test accuracy (\%) & 差值 (pp) & Test loss & 耗时 (h) & 记录 \\
+\midrule
+baseline（cosine） & 95.45 & 0 & 0.1730995893 & 5.2115 & EXP-05 \\
+关闭 shortcut 相加 & 95.11 & $-0.34$ & 0.2076407678 & 5.1725 & EXP-06 \\
+固定 LR 0.1 & 86.88 & $-8.57$ & 0.3807913750 & 5.0133 & EXP-07 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{shortcut 与 schedule 的条件化观察}
+在本次设备、数据划分、单 seed、SGD 与完整 cosine 预算下，只关闭 shortcut 相加，最终 test accuracy 从 95.45\% 变为 95.11\%，test loss 从 0.1730995893 变为 0.2076407678\cite{exp05,exp06}。最终 train accuracy 两组同为 99.998\%；本次小幅 accuracy 差异不足以证明统计显著性，也不能外推到其他深度与任务。
+
+在相同 baseline 条件下，只将 cosine 改为固定 LR 0.1，最终 test accuracy 从 95.45\% 变为 86.88\%，test loss 变为 0.3807913750\cite{exp07}。这支持本次固定预算下该 LR 配置的最终表现较低，不支持“所有固定 LR 都更差”的判断。不同固定 LR、延长预算、多 seed 与 CUDA 尚未验证。
+
+\subsection{成本与可追溯性}
+表\ref{tab:results}给出实际耗时。三组累计训练及评测为 55430.08841 秒，约 15.3972 小时\cite{exp07}。关闭 shortcut 保留注册参数但减少参与计算的分支；各组顺序运行且未控制温度和后台负载，因此耗时差不能作为结构或 schedule 的因果效率证据。
+
+三组各有连续 epoch 1--200 的指标，loss/accuracy 有限，样本数正确；completed.json 与最终 checkpoint 的 epoch、variant、seed 和 metrics 一致\cite{exp05,exp06,exp07}。最终权重与指标文件 hash 记录在对应实验记录中，数据 MD5 与实际 runner/patch hash 也重新核对通过。CPU 仅用于加载 checkpoint 元数据，没有执行 CPU 模型评测。
+
+\balance
+\section{结语与作者终审范围}
+本次完成运行前登记、完整训练、单因素比较和数字到记录的连接。所支持的结论限定于上述设备、划分、单 seed 与固定预算；它没有检验统计显著性、其他任务或跨设备稳健性。后续报告终审需要作者确认本文的问题定位、参考差距解释与叙事是否忠实于实践目的。陌生人能否从冷启动照做使用文档，仍属于独立的后续验证任务，不能由本次作者验证跑替代。
+
+\begin{thebibliography}{9}
+\bibitem{guide} Habit130，\emph{计算机视觉科研入门指南}，本仓库随附 PDF，\S4.4--4.5、\S6.4、\S6.6、Table 7。
+\bibitem{resnet} K. He, X. Zhang, S. Ren, and J. Sun, ``Deep Residual Learning for Image Recognition,'' CVPR, 2016. \url{https://arxiv.org/abs/1512.03385}.
+\bibitem{exp04} \href{https://github.com/Habit130/cv-research-practice/blob/4fd32e0c87a76b9ecf975837b243b8dd3199daf0/example/experiments/EXP-04-phase2-repro-full-training.md}{EXP-04}，Phase 2 提前终止记录及后续说明。
+\bibitem{exp05} \href{https://github.com/Habit130/cv-research-practice/blob/4fd32e0c87a76b9ecf975837b243b8dd3199daf0/example/experiments/EXP-05-phase3-baseline.md}{EXP-05}，Phase 3 baseline：配置、完整结果与参考差距。
+\bibitem{exp06} \href{https://github.com/Habit130/cv-research-practice/blob/4fd32e0c87a76b9ecf975837b243b8dd3199daf0/example/experiments/EXP-06-phase3-no-shortcut.md}{EXP-06}，Phase 3 no-shortcut：单因素结果及加载约束。
+\bibitem{exp07} \href{https://github.com/Habit130/cv-research-practice/blob/4fd32e0c87a76b9ecf975837b243b8dd3199daf0/example/experiments/EXP-07-phase3-constant-lr.md}{EXP-07}，Phase 3 constant-lr：结果、对照表与累计耗时。
+\bibitem{exp08} \href{https://github.com/Habit130/cv-research-practice/blob/4fd32e0c87a76b9ecf975837b243b8dd3199daf0/example/experiments/EXP-08-phase3-preflight.md}{EXP-08}，数据完整性、MPS preflight 与环境。
+\end{thebibliography}
+\end{document}
