@@ -1,0 +1,10 @@
+# Machine-specific agent context.
+.local/*
+!.local/README.md
+
+# Frozen owner-machine session handoffs.
+docs/orchestration/handoffs/*.md
+!docs/orchestration/handoffs/README.md
+
+# Upstream task clones stay outside history (ADR-0002).
+runs/*/repro/
