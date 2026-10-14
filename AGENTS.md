@@ -1,61 +1,70 @@
-# AI 协作规范
+# AGENTS.md
 
-本文件是 Codex Local、Codex Cloud 与 Claude Code 共享的项目指令。Claude Code 通过根目录 [CLAUDE.md](CLAUDE.md) 导入本文件;通用规则只在这里维护。
+Local OpenCode sessions inherit `~/.config/opencode/AGENTS.md`. This file contains only
+cv-research-practice-specific boundaries, workflow rules, review invariants, and context
+routing.
 
-## 项目定位与权威来源
+## Repository boundary
 
-这是可克隆的计算机视觉科研实践闭环模板,服务科研初学者完成“论文选读 → 代码复现 → 实验记录 → 对比分析 → 报告写作”。交付物是闭环及其记录,不是第二份指南或通用软件框架。
+- 本仓库是可克隆的计算机视觉科研实践闭环模板。交付物是闭环及其记录,不是第二份指南或通用软件框架。
+- 权威来源:`CONTEXT.md` 定义术语;`README.md` 定义任务梯度与各 Phase 的执行和退出标准;根目录《计算机视觉科研入门指南.pdf》是方法论最终依据,不得编辑或删除;`docs/adr/` 记录已落定决策。
+- `templates/` 是任务无关模板。`example/` 只放作者验证跑,不得写入读者任务。`runs/` 是读者的实践闭环工作区。
+- 仓库只收录流程文本。不得把数据集、权重、checkpoint、缓存、凭据或任务代码写入版本历史。上游实现优先克隆到仓库外,用 URL 与 commit hash 指认。放在 `runs/<任务>/repro/<仓库名>/` 时必须先确认已被 Git 排除,且不得作为嵌套仓库或 submodule 提交。
+- 不得编造指标或把预期写成结果,不得把 CPU 检查写成 MPS/CUDA 验证。笔记、记录、报告与协作说明用中文;代码、命令、标识符及 baseline、ablation、checkpoint 等术语保留英文。固定标题、准则 ID、Code Review Rules 与 Conventional Commit subject 用英文。
+- 没有统一的 build、lint、test 或 CI。文档变更检查引用、路径、术语与规则一致性。不要为文档维护启动训练。
 
-- [CONTEXT.md](CONTEXT.md):项目术语与背景的权威来源,按其定义用词。
-- [README.md](README.md):面向读者的使用文档,任务梯度与各 Phase 的执行、退出标准以此为准。
-- [计算机视觉科研入门指南.pdf](计算机视觉科研入门指南.pdf):方法论的最终依据,不得编辑或删除。方法论问题引用对应章节,再结合当前任务落地,不另造流程或大段复述理论。
-- [docs/adr/](docs/adr/):已确定的项目决策。修改相关区域前阅读对应 ADR;发现矛盾或需要改变方法论、任务目标、仓库形态时,先说明冲突及理由,交由维护者决定。
+## Session roles
 
-## 目录职责与内容边界
+- 每个写会话在启动提示中声明一个角色:**Orchestration**、**Execution** 或 **Acceptance**。
+- **Orchestration** 拥有 issue 范围、治理产物,以及冻结的契约和 handoff。
+- **Execution** 拥有一个 issue、一条 branch/worktree、一个交付面和唯一写者;在冻结契约内自主实现、验证并修复,然后交回证据。
+- **Acceptance** 在需要时独立检查同一份契约,只写验收记录。产品实现与修复属于 Execution。
+- habit 启动 Execution 与 Acceptance,并且是唯一的 squash-merge 权威。分发、Codex、handoff、验收与修复协议见 `docs/agents/delivery.md`。
 
-| 目录 | 职责 |
+## Git remotes and workflow
+
+- `origin` = `https://github.com/Habit130/cv-research-practice`,写远端与 PR 目标。仓库为 public。默认分支是 `main`;本地 `main` 跟踪 `origin/main`。
+- GitHub 当前没有 branch protection 或 ruleset,主机仍允许 merge、squash 与 rebase,合并后也不自动删除分支。这些主机缺口不构成绕过本文件的理由。
+- 每个独立交付从最新的 `origin/main` 建立 `<type>/<kebab-slug>`。默认不使用 stacked PR。
+- bootstrap 之后的每个变更都有一份冻结的 Issue 契约,通过一条 feature branch 和一个 PR 交付。
+- Commit 使用英文 Conventional Commits。PR 包含 Motivation、Changes 与 Verification;说明文字用中文。
+- Agent 可以建分支、提交、推送,以及创建或更新 PR。PR 保持打开。Agent 不合并、不启用 auto-merge、不改写远端历史。
+- habit 执行 squash-merge。只有在 `origin/main` 核对到确切交付后,才记录完成。
+
+## Code Review Rules
+
+- Report a finding only when the delivery introduces a concrete P0/P1 in a supported path.
+  State the trigger, impact, primary evidence, and safe path or exception. Treat style,
+  optional refactors, and stronger-than-contract tests as non-blocking follow-up.
+- Flag P1 when a change adds task code, a dataset, weights, a checkpoint, cache, or
+  credentials to git history, or adds a nested repository or submodule. The safe path keeps
+  them outside history and cites the upstream URL and commit hash. A clone under
+  `runs/<task>/repro/<repo>/` is allowed only after Git exclusion is verified.
+- Flag P1 when a reported metric or hardware claim is not traced to an experiment log
+  created before that run, or when a CPU result is presented as MPS or CUDA verification.
+  The safe path records the actual command, device, code version, and not-run, failed, or
+  limited status.
+
+## Agent skills
+
+Load detailed guidance only when the task triggers it:
+
+| Task | Required context |
 | --- | --- |
-| `templates/` | 任务无关模板,复制到自己的任务目录使用 |
-| `example/` | 作者的验证跑(ResNet-18 + CIFAR-10),参考体例;不得添加读者自己的任务内容 |
-| `runs/` | 读者的实践闭环工作区,每个任务独立目录 |
-| `docs/agents/` | 协作约定的补充说明 |
-| `docs/adr/` | 已落定的重要决策及理由 |
+| Issue tracker operations | `docs/agents/issue-tracker.md` |
+| Triage or tracker labels | `docs/agents/triage-labels.md` |
+| Planning, dispatch, handback, Acceptance, repair, or parallel delivery | `docs/agents/delivery.md` |
+| Build, lint, test, packaging, or CI | `docs/agents/build.md` |
+| Domain terms, boundaries, or architectural decisions | `docs/agents/domain.md`, then relevant `CONTEXT.md` and `docs/adr/` entries |
+| Paper reading, reproduction, experiments, reports, or hardware claims | `docs/agents/research-practice.md` |
 
-遵守 [ADR-0001](docs/adr/0001-第二阶段形态-模板仓库而非第二份指南.md) 与 [ADR-0002](docs/adr/0002-仓库只含流程文本.md):仓库只收录流程文本与配套理论指南,不收录任务代码。上游实现优先克隆到仓库外,在记录中用 URL + commit hash 指认;若按 README 放在 `runs/<任务>/repro/<仓库名>/`,须先确认已被 Git 排除,不可作为嵌套仓库或 submodule 提交。
+Follow only the rows relevant to the current task and any further pointers they contain.
 
-不得提交数据集、模型权重/checkpoint、缓存或敏感凭据。即使存放在被排除的上游目录里,也不得加入本仓库版本历史。提交前检查实际 diff,保留用户已有修改,只纳入当前任务相关文件。
+## Shared-state gate
 
-## 科研工作纪律
+Parallel Execution uses a separate worktree per issue. Before dispatch, Orchestration
+allocates exclusive ownership of every applicable machine-level shared resource:
 
-- **先建记录,再跑实验**:任何训练、评测或冒烟测试启动前,先用 [实验记录模板](templates/experiment-log-template.md) 建好本次记录,再执行。运行后把真实结果写回同一份记录,不得事后补建不存在的运行记录。
-- **结果必须真实、可追溯**:只记录真实执行得到的指标,注明命令、代码版本、环境、设备和配置;未运行、失败或受限的步骤明确标注,不得编造指标或把预期当结果。报告中的每个数字须能追溯到实验记录。
-- **结论必须条件化**:写清“指标在什么条件下从 X 变到 Y、代价是什么”,以及支持和不支持的判断;不写无条件的“效果变好”。
-- **复现不许跳级**:按理论指南 §6.3 和 [复现清单](templates/repro-checklist.md),依次完成环境 → demo → checkpoint 评测 → 小规模训练 → 完整训练;记录当前级别的结果后再进入下一级。
-- **方法论指回理论指南**:论文筛选与阅读 → Table 4、§4.3;环境排查 → Table 6;实验记录 → §6.4;baseline / ablation / fair comparison → §6.6、Table 7;报告叙事线 → §4.4–4.5。
-
-## 本地、云端与 GPU 服务器
-
-各环境从 GitHub 获取同一任务分支与提交,共同遵守本文件;硬件相关结论以对应设备上的真实执行为依据。
-
-| 环境 | 主要职责 | 验证边界 |
-| --- | --- | --- |
-| Mac 本地 Codex | 本地调试、Apple Silicon MPS 验证 | 记录实际 MPS 使用情况,CPU 回退须明示 |
-| Codex Cloud | 文档维护、Issue 处理、代码审查、轻量 CPU 检查 | CPU 测试不构成 MPS/CUDA 硬件验证 |
-| GPU 服务器 | 需要 CUDA 的训练与模型评估 | 记录实际 GPU、CUDA 与依赖版本及运行结果 |
-
-仓库没有统一的 build / lint / test 命令。文档修改检查 Markdown 引用、路径、术语及规则一致性;任务代码的检查在对应上游实现与实际环境中完成。交付时写清已执行的检查、结果和未验证事项;不要为文档维护启动训练,不得把云端 CPU 测试冒充为 MPS/CUDA 验证。
-
-## GitHub 协作与交接
-
-- **GitHub 是跨环境代码交接的统一来源**:用分支、提交与 PR 交接代码,用 Issue/PR 记录任务状态与验证证据;不要依赖某台机器的未推送修改作为已交接成果。
-- **不同任务使用独立分支**:从最新的 GitHub `main` 建立任务分支,优先通过 PR 审查合并。不得直接向 `main` 提交或推送未经审查的变更;未经明确授权不合并 PR。
-- **同一任务交接标明版本**:在 Issue/PR 中写明分支、commit hash、已完成工作、实际检查环境与结果、未完成项及所需硬件。接手环境先获取该分支并核对提交,避免多个环境同时改写同一分支历史。
-- **Issue 与 PRD 放在 GitHub Issues**:默认仓库 `Habit130/cv-research-practice`,在克隆仓库中通过 `gh` CLI 操作,见 [Issue 协作约定](docs/agents/issue-tracker.md)。已有 Issue 则关联 PR,无需为每个小修改重复建 Issue。外部 PR 不作为需求 triage 面,但 PR 仍是变更审查入口。
-- **保持现有 triage 标签**:映射见 [triage-labels.md](docs/agents/triage-labels.md),不因更换 Agent 重命名标签。
-- **访问受限时如实交接**:无法访问 GitHub、推送或创建 PR 时,保留独立分支与提交,说明阻塞和剩余操作,不要声称远端已保存或 PR 已创建。
-
-## 语言与维护
-
-笔记、记录、报告、协作说明及 Issue/PR 使用中文;代码、命令、标识符及 baseline、ablation、checkpoint 等英文术语保留英文。
-
-项目术语与背景维护在 `CONTEXT.md`,重要决策维护在 `docs/adr/`,领域文档用法见 [domain.md](docs/agents/domain.md)。仅在术语或决策确实落定时更新这些文档,不引入当前项目没有使用的路径或依赖某个 Agent 专属技能的通用规则。
+- 本仓库没有自有服务、数据库或部署目标。
+- 加速设备、conda 环境,以及仓库外的上游克隆目录,都是机器本地资源。交付实际使用时独占分配,并把实例写入 `.local/agent-context.md`。
+- 不得把另一环境的 CPU 结果当作 MPS 或 CUDA 证据。
