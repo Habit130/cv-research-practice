@@ -1,6 +1,6 @@
 # IEEEtran 验证跑报告
 
-[main.tex](main.tex) 是作者验证跑的报告草稿,[report.pdf](report.pdf) 是同一源码的编译产物。实验条件下的结论已获作者批准;报告的问题定位、观点与叙事仍待作者终审,不作为发布定稿。
+[main.tex](main.tex) 是作者验证跑的报告源码,[report.pdf](report.pdf) 是同一源码的编译产物。报告的问题定位、观点与叙事已获作者终审批准(#10 Completed,2026-10-16;PR #15 已合并至 `79c864a919024508560ea5a28b84211a5665c915`);该批准不替代仓库发布终审,发布状态见 [PLAN.md](../PLAN.md) 的进度记录。
 
 正文按理论指南 §4.4–4.5 组织为“问题为什么重要 → 已有方法与证据缺口 → 做了什么 → 实验是否支持结论”。本报告记录 ResNet18 + CIFAR-10 的实践闭环,不将参考实现训练称为原论文实验的严格复现。表格采用固定第 200 epoch 指标,单 seed 不支持统计显著性;参考 best accuracy 只作诊断核对。
 
@@ -31,10 +31,10 @@ cp example/report/build/main.pdf example/report/report.pdf
 | 数据划分、完整性、设备与依赖版本、MPS preflight | [EXP-08](../experiments/EXP-08-phase3-preflight.md) |
 | 早期训练的 epoch 37 范围收窄及后续说明 | [EXP-04](../experiments/EXP-04-phase2-repro-full-training.md) |
 
-已执行数字抽查:95.45% → EXP-05、95.11% → EXP-06、86.88% → EXP-07,三处均与原记录及真实 epoch 200 日志一致。表中差值、loss、耗时和累计值也与 EXP-07 对照表核对一致。报告没有新增训练或评测结果。
+PR #15 交付时已执行数字抽查:95.45% → EXP-05、95.11% → EXP-06、86.88% → EXP-07,三处均与原记录及真实 epoch 200 日志一致。表中差值、loss、耗时和累计值也与 EXP-07 对照表核对一致。报告没有新增训练或评测结果。
 
 ## 本机验证与作者终审
 
-本机使用 TeX Live 2026、XeLaTeX、latexmk 4.88 编译;PDF 两页,逐页渲染检查中文、公式、双栏、表格和参考链接。源码引用均已解析,未出现 missing character 或 overfull box。文档未进行 MPS/CUDA 新评测,沿用实验记录中的真实硬件证据。
+本机编译与视觉检查(PR #15 交付时执行,属历史记录,本次文档收尾未重跑):TeX Live 2026、XeLaTeX、latexmk 4.88 编译;PDF 两页,逐页渲染检查中文、公式、双栏、表格和参考链接。源码引用均已解析,未出现 missing character 或 overfull box。文档未进行 MPS/CUDA 新评测,沿用实验记录中的真实硬件证据。
 
-作者终审需确认:问题定位是否符合验证跑目的、参考差距解释是否准确、结果与限制的表述是否充分。报告终审不替代后续陌生人冷启动测试或发布终审。
+作者终审(已完成):问题定位符合验证跑目的、参考差距解释准确、结果与限制的表述充分。报告终审不替代仓库发布终审;发布收尾与待办见 [PLAN.md](../PLAN.md) 的进度记录与 issue #12。
