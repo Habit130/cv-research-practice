@@ -15,7 +15,9 @@
 - 仓库 / commit:本条目不对应克隆的上游仓库(ADR 0002:仓库只含流程文本);冒烟脚本是下方"环境搭建步骤"里内联的 ~60 行自写代码,不作为文件提交进本仓库
 - 数据集与划分:torchvision 内置 `datasets.MNIST`,标准 60000 张 train / 10000 张 test 划分,下载到仓库外 `~/mnist_data`(未入库,ADR 0002)
 
-### 环境搭建步骤(可复执行)
+### 环境搭建步骤
+
+> 以下命令是 2026-07-07 本次运行实际执行的历史命令,当时并未精确钉选版本:Python 只固定到 3.11,torch / torchvision 未钉版本、装的是当日最新,从而解得下方运行环境表的组合(Python 3.11.15 / torch 2.12.1 / torchvision 0.27.1)。最新版本随时间漂移,今天照抄同一命令不保证同一组合(2026-10-16 冷启动实测照抄得到 Python 3.11.17 / torch 2.14.1 / torchvision 0.29.1,见 issue #19);要精确固定版本,用下方"复执行示例"。
 
 ```bash
 # 1. 新建 conda 环境,固定 Python 版本
@@ -35,6 +37,21 @@ print('cuda available:', torch.cuda.is_available())
 ```
 
 若自检失败,按 Table 6 顺序排查(包缺失 → 版本冲突 → CUDA/MPS 不可用 → 算子/扩展不匹配 → 路径混乱)。本次运行一次通过,未触发排错分支。
+
+### 复执行示例(2026-10-16 事后补充,非本次运行的实跑记录)
+
+以下命令是为精确固定版本而事后补充的示例:2026-07-07 本次运行没有执行它们,本记录各节的结果也不由它们产生。它把 Python 与 torch / torchvision 都钉到运行环境表的组合。
+
+- 版本配对依据 [PyTorch 官方历史版本页](https://pytorch.org/get-started/previous-versions/) 的 v2.12.1 小节:该页对 OSX 给出的命令即 `torch==2.12.1 torchvision==0.27.1`,Linux / Windows 的 CUDA 变体带对应 `--index-url`。
+- 该组合只验证于 Apple Silicon / MPS;其他平台按 [PyTorch 官方安装入口](https://pytorch.org/get-started/locally/) 选平台与计算后端,再到历史版本页复制匹配的固定命令。
+- 若你的包源解析不到某个精确版本,改选最近的兼容版本,并把实际装到的版本记入实验记录。
+
+```bash
+conda create -y -n cvpractice python=3.11.15
+conda activate cvpractice
+# macOS / MPS
+pip install torch==2.12.1 torchvision==0.27.1
+```
 
 ### MNIST 冒烟脚本(内联,非仓库文件)
 

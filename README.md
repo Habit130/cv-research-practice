@@ -72,7 +72,8 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 ### Phase 0 —— 环境
 
 - **目标**:搭好一个版本固定、可复用整个闭环的 PyTorch 环境,并用分钟级的 MNIST 冒烟测试证明它可用。
-- **具体动作**:新建 conda 环境并固定 Python 版本 → 安装固定版本的 PyTorch / torchvision → 自检加速设备(CUDA 或 MPS)→ 用一个极小 CNN 在 MNIST 上跑通一次完整的前向 + 反向 + 评测。可照抄的完整命令与冒烟脚本见 [example 的 EXP-00 记录](example/experiments/EXP-00-phase0-env-mnist-smoke.md);数据集下载到仓库外,不要提交。遇到环境问题,按指南 Table 6 的顺序排查。
+- **具体动作**:新建 conda 环境并固定 Python 版本 → 安装固定版本的 PyTorch / torchvision → 自检加速设备(CUDA 或 MPS)→ 用一个极小 CNN 在 MNIST 上跑通一次完整的前向 + 反向 + 评测。完整命令、自检与冒烟脚本见 [example 的 EXP-00 记录](example/experiments/EXP-00-phase0-env-mnist-smoke.md);数据集下载到仓库外,不要提交。遇到环境问题,按指南 Table 6 的顺序排查。
+- **版本选择**:"固定版本"指把 Python 与 PyTorch / torchvision 都钉到明确版本号——照抄 `pip install torch torchvision` 只会装到当天最新,不算固定。作者验证跑(Apple Silicon / MPS)用的组合是 Python 3.11.15 + torch 2.12.1 + torchvision 0.27.1,固定命令示例:`conda create -y -n cvpractice python=3.11.15` + `conda activate cvpractice` + `pip install torch==2.12.1 torchvision==0.27.1`;历史命令与固定命令示例的对比见 EXP-00 的"复执行示例"一节。该组合只在 Apple Silicon 上验证过,不代表 CUDA / Windows 也适用:其他平台按 [PyTorch 官方安装入口](https://pytorch.org/get-started/locally/) 选平台与计算后端,再到[历史版本页](https://pytorch.org/get-started/previous-versions/)复制对应版本(含 CUDA 变体 `--index-url`)的固定命令,并把实际采用的版本记入实验记录。
 - **退出标准**:PyTorch 能看到 GPU 或 MPS;冒烟测试的前向传播跑通。
 - **模板**:[templates/experiment-log-template.md](templates/experiment-log-template.md)(冒烟测试同样先建记录再跑)。
 - **指南**:§6.2、Table 6。
