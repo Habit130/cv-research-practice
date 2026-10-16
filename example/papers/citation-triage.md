@@ -1,7 +1,7 @@
 # Phase 1 检索与分级过程简记 —— 种子论文 ResNet(He et al., 2016)
 
 > 依据指南 §4.1(如何找到论文)、§4.3(backward/forward citation)、Table 4(三层分级)。
-> 本文件是 issue #7 交付物之二:"检索与分级过程简记"。按 issue 里的分工,引文网络检索和分级整理由 session 完成;论文笔记里"相关性 / 贡献 / 局限"三处判断留给作者本人(见 [he2016-deep-residual-learning.md](he2016-deep-residual-learning.md) 内的 TODO 标记)。
+> 本文件是 issue #7 交付物之二:"检索与分级过程简记"。按 issue 里的分工,引文网络检索和分级整理由 session 完成;论文笔记里"相关性 / 贡献 / 局限"三处判断按作者于 2026-10-16 的决定跳过留空(见 [he2016-deep-residual-learning.md](he2016-deep-residual-learning.md) 内的"作者选择跳过"标记与说明)。
 
 ## 种子论文
 
