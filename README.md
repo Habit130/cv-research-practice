@@ -78,6 +78,8 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 - **模板**:[templates/experiment-log-template.md](templates/experiment-log-template.md)(冒烟测试同样先建记录再跑)。
 - **指南**:§6.2、Table 6。
 
+> **MNIST 下载失败时**:先不改任何配置、重跑同一脚本。torchvision 下载时会做完整性校验,损坏或不完整的文件会在重跑时被重新下载,一般无需手工清理数据。重跑不保证必然恢复,持续失败的原因也不限于网络;保留完整报错,核查网络/代理与数据目录(本示例为 `~/mnist_data`)可写性等适用原因,并对照 [torchvision 的 MNIST 数据集文档](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html)核对预期的下载行为与数据目录结构。
+
 ### Phase 1 —— 论文选读
 
 - **目标**:围绕你的任务读透 1–2 篇必读论文,建立对方法本身的把握。

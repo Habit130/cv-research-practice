@@ -53,6 +53,12 @@ conda activate cvpractice
 pip install torch==2.12.1 torchvision==0.27.1
 ```
 
+### MNIST 下载失败时(2026-10-16 事后补充,非本次运行的实跑记录)
+
+torchvision 下载时会做完整性校验,损坏或不完整的文件会在重跑同一脚本时被重新下载,一般无需手工清理数据;但重跑不保证必然恢复,持续失败时保留完整报错、核查网络/代理与数据目录可写性,并参见 [torchvision 的 MNIST 数据集文档](https://pytorch.org/vision/stable/generated/torchvision.datasets.MNIST.html)与 README Phase 0 的下载提示。
+
+作为参照:2026-10-16 的冷启动检查(issue #11,提交 `79c864a`,macOS 27.2 / torch 2.14.1 / torchvision 0.29.1)中,首次下载在 `t10k-images-idx3-ubyte.gz` 的完整性校验处失败、脚本以非零状态退出;不改任何配置、直接重跑同一脚本即成功。该观测只对应当次日期与版本组合,不代表相关下载源的长期状态。
+
 ### MNIST 冒烟脚本(内联,非仓库文件)
 
 ```python
