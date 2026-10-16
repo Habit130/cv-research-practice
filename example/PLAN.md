@@ -53,7 +53,7 @@
 - 2026-10-10 —— 作者终审批准 Phase 3 条件化结论并授权合并;PR #14 已 squash merge 至 `4fd32e0`,#9 已关闭,已合并任务分支已清理。Phase 4(#10) 草稿已形成 [报告源码](report/main.tex)、[PDF](report/report.pdf) 与 [编译/追溯说明](report/README.md):IEEEtran 双栏两页,本机 TeX Live 2026 / XeLaTeX 编译通过,数字抽查三处命中 EXP-05/06/07,逐页渲染通过。报告叙事与观点仍待作者终审;不把文档编译当作新 MPS/CUDA 实验,不替代陌生人冷启动与发布终审。
 - 2026-10-16 —— 发布前文档状态收尾(#22):以下为当前状态,旧日期条目保留原文。
   - #10 已 Completed:habit 终审批准报告,PR #15 已合并至 `79c864a`;沿用 PR #15 交付时的本机编译、数字追溯与逐页视觉检查证据,本次未重新编译、训练或评测。[report/README.md](report/README.md) 已同步。
-  - #11 已 Completed:冷启动测试在 OpenCode v2.0.30 / DeepSeek V4.1 Flash / MPS 条件下零提问走通 Phase 0(测试提交 `79c864a`,记录见 [#11 交回评论](https://github.com/Habit130/cv-research-practice/issues/11#issuecomment-6206251804));结论仅限该次客户端与设备条件,保留会话自述与控制面预读的限制,不外推 CUDA、所有客户端或最新 main 已再次实测。
+  - #11 已 Completed:冷启动测试在 OpenCode v2.0.30 / DeepSeek V4.1 Flash / MPS 条件下零提问走通 Phase 0(测试提交 `79c864a`);运行前先建的实验记录保留在测试克隆(sha256 `06bed3592c0d15b441330e40d65a51a7f0f623a6f10c801caa7a5eacfdf6b7ce`,按 #11 契约未入库),实际命令、设备与结果见 [#11 交回评论](https://github.com/Habit130/cv-research-practice/issues/11#issuecomment-6206251804),记录先建后跑的时间线经独立验收核验(见 [#11 验收评论](https://github.com/Habit130/cv-research-practice/issues/11#issuecomment-6206439881))。结论仅限该次客户端与设备条件,保留会话自述与控制面预读的限制,不外推 CUDA、所有客户端或最新 main 已再次实测。
   - #18、#19 已分别经 PR #21、PR #20 合并(文本说明,非新安装或硬件验证)。
-  - #7:habit 于 2026-10-16 决定不发表评论,"相关性 / 贡献 / 局限"三处个人判断改为"作者选择跳过"([论文笔记](papers/he2016-deep-residual-learning.md) 保留空缺);跳过不代表作者已通过五要素脱稿复述,#7 关闭状态与其余验收项不变。
+  - #7:habit 于 2026-10-16 决定不发表评论,"相关性 / 贡献 / 局限"三处个人判断改为"作者选择跳过"([论文笔记](papers/he2016-deep-residual-learning.md) 保留空缺);跳过不代表作者已通过五要素脱稿复述,#7 保持打开,其余验收项不变。
   - 发布状态:仓库仍未正式发布;"建设中"横幅保留,topics/description、issue 清算与最终发布决定仍挂 #12(对照 #1 PRD)。
