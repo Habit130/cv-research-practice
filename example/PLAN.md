@@ -58,3 +58,8 @@
   - #7:habit 于 2026-10-16 决定不发表评论,"相关性 / 贡献 / 局限"三处个人判断改为"作者选择跳过"([论文笔记](papers/he2016-deep-residual-learning.md) 保留空缺);跳过不代表作者已通过五要素脱稿复述,#7 保持打开,其余验收项不变。
   - 发布状态:仓库仍未正式发布;"建设中"横幅保留,topics/description、issue 清算与最终发布决定仍挂 #12(对照 #1 PRD)。
 - 2026-10-16 —— 发布前报告终审状态同步与重编译(#24):[报告源码](report/main.tex) 的作者栏/摘要/结语残留"待作者终审"句同步为 #9/#10 已批准,区分报告形成 2026-10-10 与批准 2026-10-16;[report.pdf](report/report.pdf) 按既有路径实际重新编译(IEEEtran 双栏两页,本机 TeX Live 2026 / latexmk 4.88 / XeTeX),逐页渲染检查中文、公式、双栏、表格与参考链接通过,提取文本核对数字与 EXP-05/06/07 一致、五个固定实验链接仍指向 `4fd32e0c87a76b9ecf975837b243b8dd3199daf0`;[报告说明](report/README.md) 与 [EXP-07](experiments/EXP-07-phase3-constant-lr.md) 已补带日期记录。本次未重跑训练或评测,不是新的 MPS/CUDA 验证,不改变任何科学结论与指标;交付分支 `docs/report-status-finalization`,#24 保持打开待合并,仓库发布状态不变。
+- 2026-10-17 —— 发布批准与正式发布收尾(#12):以下为当前状态,旧日期条目保留原文。
+  - 发布批准:habit 于 2026-10-17 批准进入正式发布收尾,并将 #7 以"脱稿复述未验证"明确挂起;挂起不补写个人判断、不构成能力验收 Pass,脱稿复述仍未验证。
+  - #24 已 Completed:PR #25 已由 habit squash-merge 至 `608b5af4a94c9ec37c18bc974bbf7205c3b3c2fe`(2026-10-17),编排已在 origin/main 核对五份交付文件与 reviewed head `9cdd9c2` 一致;本次未重编译、训练或评测。
+  - 本次收尾(分支 `docs/release-finalization`,PR 待合并):移除 README 顶部建设中横幅,并同步其完成范围段落中的发布状态;GitHub description/topics 已按批准配置(非 Git 改动,已落地)。发布批准、metadata 已落地、文档待合并、最终落地完成四种状态互相区分:文档改动经合并并由编排在 origin/main 核对后,才记录整体发布完成。
+  - 边界不变:科学结论、指标、读者 Phase 退出标准与既有验证范围未变;#7 脱稿复述未验证、#11 的 OpenCode/MPS 有条件测试、Phase 2 参考差距与单 seed 限制仍适用,本次不代表 CUDA/Windows 或所有客户端已验证。
