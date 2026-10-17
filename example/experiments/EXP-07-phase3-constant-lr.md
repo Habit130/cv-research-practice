@@ -4,7 +4,7 @@
 
 **类型**:ablation
 **日期**:2026-10-09
-**状态**:完整 200 epoch 已完成,最终指标与权重已核验;三组队列已结束。
+**状态**:完整 200 epoch 已完成,最终指标与权重已核验;三组队列已结束。作者批准补记见文末(2026-10-16)。
 
 ## 1. 这次实验想验证什么
 
@@ -54,3 +54,7 @@
 ## 运行与交接
 
 环境、完整 patch/runner hash、数据及队列路径见 [EXP-05](EXP-05-phase3-baseline.md)、[EXP-08](EXP-08-phase3-preflight.md)。命令:`/opt/homebrew/Caskroom/miniforge/base/envs/cvpractice/bin/python -u phase3.py --variant constant-lr`。
+
+## 作者批准补记(2026-10-16)
+
+第 5 节末尾"仍须作者本人终审"是运行后整理草稿时的原始状态,按原样保留。作者已于 2026-10-10 终审批准本记录与 EXP-05/06 的三组条件化结论并授权合并;PR #14 已 squash merge 至 `4fd32e0c87a76b9ecf975837b243b8dd3199daf0`,#9 已关闭,报告终审随后已由 #10 于 2026-10-16 完成。本补记只同步批准状态,不修改上文任何日期、指标、config、hash、命令与科学结论。
