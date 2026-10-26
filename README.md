@@ -4,6 +4,8 @@
 
 本仓库与《计算机视觉科研入门指南》([计算机视觉科研入门指南.pdf](计算机视觉科研入门指南.pdf),下称"理论指南")配对使用:**理论指南回答"为什么"——科研训练要求什么、如何建立能力地图;本仓库提供"怎么做"的脚手架**——克隆之后,围绕你自己选定的一个小型 CV 任务,真实跑一遍"论文选读 → 代码复现 → 实验记录 → 对比分析 → 报告写作"的实践闭环。
 
+零基础本科新生不要从这句话直接进入五个 Phase。先按 [学习准备](learning/README.md) 补到能做 [CPU 准备实践](learning/preparation-practice.md);准备实践不是科研闭环,也不代替理论指南。已有基础的读者用学习页里的自检决定跳过哪些节点。
+
 仓库分三部分:
 
 ```
@@ -16,26 +18,63 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 
 > **example 的当前完成范围与限制**(权威记录:[example/PLAN.md](example/PLAN.md) 的"进度"一节):五个 Phase 均已走通并有对应记录;验证跑在 Apple Silicon / MPS 设备上完成,不代表 CUDA / Windows 已验证;陌生人冷启动测试只覆盖 OpenCode 客户端下的 Phase 0,属有边界结论;论文笔记中"相关性 / 贡献 / 局限"三处作者个人判断已按作者决定跳过留空,不能作为作者已完成阅读或通过脱稿复述的证据;报告已获作者终审批准;作者已批准本仓库正式公开发布,发布收尾进行中,最终落地以合并后的核对为准。
 
+<a id="audience"></a>
+
+## 受众与分流
+
+本仓库的使用文档同时面向两类读者。主要受众是基础更薄弱的本科新生:会用电脑,但还没写过程序,也不假定已经会 Git 或 conda。另一类是已经会其中若干步的读者,按 [学习准备](learning/README.md) 各节点的自检跳过,不必把整条准备路径重走一遍。
+
+两条路径:
+
+- **零基础**:从 [Python](learning/README.md#python) 走到 [CPU 准备实践](learning/preparation-practice.md)。这一段不要求先读完理论指南,也不要求已经会 Git 或 conda。
+- **已有基础**:只补自检没通过的节点。若命令行、Git、conda 和理论指南都已经满足,直接进入下面的五个 Phase。
+
+读者的下一步在学习页和准备实践页,不在维护者文档里。
+
+<a id="route"></a>
+
+## 学习路线
+
+细节、资料和自检在 [learning/README.md](learning/README.md)。这里只保留顺序:
+
+| 顺序 | 节点 | 入口 |
+|---|---|---|
+| 1 | Python | [学习准备](learning/README.md#python) |
+| 2 | Git 与 GitHub | [学习准备](learning/README.md#git-github) |
+| 3 | 环境与依赖 | [学习准备](learning/README.md#env) |
+| 4 | 数学与深度学习,按需补齐 | [学习准备](learning/README.md#math-dl) |
+| 5 | PyTorch | [学习准备](learning/README.md#pytorch) |
+| 6 | CPU 准备实践 | [准备实践](learning/preparation-practice.md) |
+| 7 | 现有 Phase 0–4 | [进入正式闭环的前提](learning/README.md#formal),然后是下面的五个 Phase |
+
+数学穿插在需要它的时候,不把一门完整数学课当成第一次动手的前置。准备实践默认普通电脑上的 CPU,不要求付费服务或加速设备。
+
 ## 本仓库不做什么
 
 - **不重复理论指南的内容**:方法论一律只引用章节号,不复述(否则会出现两个必然漂移的真相源)。
 - **不教深度学习知识本身**:网络、优化、损失函数等请回到课程与理论指南的引文。
-- **不自写通用工具教程**:[git](https://git-scm.com/doc)、[conda](https://docs.conda.io)、[LaTeX](https://www.latex-project.org/help/) 请直接看官方文档。
+- **不自写通用工具教程**:[git](https://git-scm.com/doc)、[conda](https://docs.conda.io)、[LaTeX](https://www.latex-project.org/help/) 请直接看官方文档。学习准备只指向外部资料和选读范围,不在这里复述教材。
 - **不含任务代码与数据集**:本仓库永远是纯文本流程仓库,代码克隆自上游、数据留在仓库外(决定记录见 [docs/adr/0002](docs/adr/0002-仓库只含流程文本.md))。
 - **不承诺"跑完 = 会科研"**:这里只是你第一次完整闭环的脚手架(指南 §7)。
 
+<a id="prereq"></a>
+
 ## 前置条件与硬件声明
 
-开始前你需要:
+进入学习准备路径时,不要求先读完理论指南,也不要求已经会 Git 或 conda。需要一台能打开网页和终端的普通电脑。准备实践的硬件要求见 [准备实践](learning/preparation-practice.md),默认 CPU。
+
+进入下面五个 Phase 之前,需要:
 
 1. 读完理论指南——本 README 的所有方法论都以章节号指回它,不另作解释;
-2. 会基本的命令行操作、git 与 conda(见上节官方文档链接);
+2. 会基本的命令行操作、git 与 conda(可经由 [学习准备](learning/README.md) 达到;工具本身仍看上节官方文档,本仓库不另写教程);
 3. 一台能跑 PyTorch 的机器,三条路径任选其一:
    - **本机 NVIDIA GPU(CUDA)**:最常规的路径;
    - **Apple Silicon(MPS)**:`example/` 的验证跑即走此路径,可行性已验证;
    - **租用 GPU 服务器**:适合本机没有加速设备的读者。作者推荐 [优云智算 Compshare](https://passport.compshare.cn/register?referral_code=32azz6jfCsUEdtSr0CwjsW)(UCloud 优刻得旗下):按小时计费、关机不收费,单张 RTX 4090 约 1–3 元/小时(以[官方价格页](https://www.compshare.cn/price-list)为准),足够覆盖本仓库任务梯度的全部三档。
 
 最低档任务 MNIST 纯 CPU 即可跑通,因此没有加速设备也能完成 Phase 0 并开始闭环。
+
+上一句是正式闭环的既有硬件说明,保持原样。CPU 准备实践是更早的外部教程练习,不满足 Phase 0 写出的加速设备退出标准,也不等于上一句所说的 Phase 0 已经完成。
 
 `example/` 的全部运行发生在以下设备上(引自 [EXP-00 实验记录](example/experiments/EXP-00-phase0-env-mnist-smoke.md)):
 
@@ -60,6 +99,10 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 
 也可以选三档之外你自己的任务,判断标准只有一条:任务的五要素(数据 / 任务 / 模型 / loss / 指标,指南 Table 2)每一项都足够小,**可被单张 GPU(或 MPS)承载**,让闭环的每个环节都能在业余时间里做完。拿不准就选 CIFAR-10 分类。
 
+完成 [进入正式闭环的前提](learning/README.md#formal) 之后,再执行 [五个 Phase](#phases)。各 Phase 的目标、动作与退出标准不因准备路径改变。
+
+<a id="phases"></a>
+
 ## 实践闭环:五个 Phase
 
 开始前,在 `runs/` 下建立你的任务目录(如 `runs/my-task/`),复制 [templates/PLAN-template.md](templates/PLAN-template.md) 为其中的 `PLAN.md`,写下任务决定;再按 `example/` 同构建立 `papers/`、`repro/`、`experiments/`、`report/` 四个子目录。此后每完成一个 Phase,回 `PLAN.md` 记一行进度。
@@ -68,6 +111,8 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 
 - **先建记录,再跑实验**:任何一次训练/评测启动之前,先用实验记录模板建好本次记录(冒烟测试也不例外);
 - **结论必须条件化**:每份记录的结论写成"指标在什么条件下从 X 变到 Y、代价是什么",不写无条件的"效果变好"。
+
+<a id="phase-0"></a>
 
 ### Phase 0 —— 环境
 
