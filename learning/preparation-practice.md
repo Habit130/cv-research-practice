@@ -8,9 +8,9 @@
 
 ## 这不是什么
 
-- 不是本仓库 Phase 0。Phase 0 要钉死环境版本,并用 MNIST 做冒烟测试;它的退出标准原文是 PyTorch 能看到 GPU 或 MPS,且前向传播跑通。见 [README 的 Phase 0](../README.md#phase-0) 和 [EXP-00](../example/experiments/EXP-00-phase0-env-mnist-smoke.md)。本练习使用 FashionMNIST,不要写成 MNIST
+- 不是本仓库 Phase 0。区别不在有没有加速设备:本练习使用 FashionMNIST,不要求钉死 Python 与 torch / torchvision 版本,也不建立正式实验记录;Phase 0 要求先建正式记录、固定这些版本,并在仓库外用 MNIST 完成前向、反向与评测。当前标准见 [README 的 Phase 0](../README.md#phase-0)。[EXP-00](../example/experiments/EXP-00-phase0-env-mnist-smoke.md) 是作者当次 MPS 历史记录,不是本练习的通过证明。不要把本练习写成 MNIST
 - 不是 Phase 0 已经通过,也不是仓库里既有的论文选读或验证跑已经通过。Issue #7 仍按原决定挂起,本练习不能拿来声称它已通过
-- 不是付费云或加速设备的门槛。教程若自动用上 CUDA 或 MPS,只把打印出的设备记下来;那次打印不是 Phase 0 的加速设备验收
+- 不是付费云或加速设备的门槛,也不以必须看到 GPU 或 MPS 来和 Phase 0 区分。教程若自动用上 CUDA 或 MPS,只把打印出的设备记下来;那次打印不是 Phase 0 的正式记录
 - 页面上的示例输出不是你的结果。Quickstart 页面有一次写着 `Using cuda device`,并打印了一组准确率。不要把那些数字抄进记录
 
 <a id="before-run"></a>
@@ -87,4 +87,4 @@
 
 准备实践结束的信号是:记录里有运行前计划、实际命令、改动前后的真实观察或明确的未运行/失败状态、你自己的解释,以及仍然不懂的一项。然后回到 [进入正式闭环](README.md#formal)。
 
-没有这些记录,即使脚本跑完了,这一步也还没完成。有了这些记录,也仍然要读理论指南,并按 Phase 0 的原文退出标准继续;本练习不缩短那个标准。
+没有这些记录,即使脚本跑完了,这一步也还没完成。有了这些记录,也仍然要读理论指南,并按 [README 的 Phase 0](../README.md#phase-0) 继续。本练习不自动通过 Phase 0,也不缩短那个标准。

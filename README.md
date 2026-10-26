@@ -16,7 +16,7 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 
 [example/](example/PLAN.md) 是一份"活例子":它的每一步都按本 README 走过一遍。任何 Phase 拿不准体例时,去 `example/` 对应目录看同款文件即可;但不要把你自己的内容写进去。
 
-> **example 的当前完成范围与限制**(权威记录:[example/PLAN.md](example/PLAN.md) 的"进度"一节):五个 Phase 均已走通并有对应记录;验证跑在 Apple Silicon / MPS 设备上完成,不代表 CUDA / Windows 已验证;陌生人冷启动测试只覆盖 OpenCode 客户端下的 Phase 0,属有边界结论;论文笔记中"相关性 / 贡献 / 局限"三处作者个人判断已按作者决定跳过留空,不能作为作者已完成阅读或通过脱稿复述的证据;报告已获作者终审批准;作者已批准本仓库正式公开发布,发布收尾进行中,最终落地以合并后的核对为准。
+> **example 的当前完成范围与限制**(权威记录:[example/PLAN.md](example/PLAN.md) 的"进度"一节):五个 Phase 均已走通并有对应记录;验证跑在 Apple Silicon / MPS 设备上完成,不代表 CUDA / Windows 已验证;陌生人冷启动测试只覆盖 OpenCode 客户端下的 Phase 0,属有边界结论;论文笔记中"相关性 / 贡献 / 局限"三处作者个人判断已按作者决定跳过留空,不能作为作者已完成阅读或通过脱稿复述的证据;报告已获作者终审批准;作者已批准本仓库正式公开发布,且该批准已核对落地:[PR #26](https://github.com/Habit130/cv-research-practice/pull/26) 由 habit 合并至 `4b0326b7cf334e59106cda8263387a4b0e3e6d83`,[#12 完成记录](https://github.com/Habit130/cv-research-practice/issues/12#issuecomment-6230965592) 确认 #12 Completed。#7 脱稿复述未验证,继续挂起。本次只同步这一已有事实,不是新的发布操作。
 
 <a id="audience"></a>
 
@@ -67,16 +67,19 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 
 1. 读完理论指南——本 README 的所有方法论都以章节号指回它,不另作解释;
 2. 会基本的命令行操作、git 与 conda(可经由 [学习准备](learning/README.md) 达到;工具本身仍看上节官方文档,本仓库不另写教程);
-3. 一台能跑 PyTorch 的机器,三条路径任选其一:
-   - **本机 NVIDIA GPU(CUDA)**:最常规的路径;
-   - **Apple Silicon(MPS)**:`example/` 的验证跑即走此路径,可行性已验证;
-   - **租用 GPU 服务器**:适合本机没有加速设备的读者。作者推荐 [优云智算 Compshare](https://passport.compshare.cn/register?referral_code=32azz6jfCsUEdtSr0CwjsW)(UCloud 优刻得旗下):按小时计费、关机不收费,单张 RTX 4090 约 1–3 元/小时(以[官方价格页](https://www.compshare.cn/price-list)为准),足够覆盖本仓库任务梯度的全部三档。
+3. 一台能跑 PyTorch 的机器。Phase 0 的 MNIST 环境冒烟允许 CPU、CUDA 或 MPS;CUDA 与 MPS 是可选设备路径,不是进入 Phase 0 的强制条件。
 
-最低档任务 MNIST 纯 CPU 即可跑通,因此没有加速设备也能完成 Phase 0 并开始闭环。
+没有加速设备时,CPU 可以完成 Phase 0 并开始闭环。Phase 0 之后的任务按规模与预算选择设备;本仓库不承诺完整闭环的 CPU 性能。需要加速设备时,三条路径任选其一:
 
-上一句是正式闭环的既有硬件说明,保持原样。CPU 准备实践是更早的外部教程练习,不满足 Phase 0 写出的加速设备退出标准,也不等于上一句所说的 Phase 0 已经完成。
+- **本机 NVIDIA GPU(CUDA)**:最常规的路径;
+- **Apple Silicon(MPS)**:`example/` 的验证跑即走此路径,可行性已验证;
+- **租用 GPU 服务器**:适合本机没有加速设备的读者。作者推荐 [优云智算 Compshare](https://passport.compshare.cn/register?referral_code=32azz6jfCsUEdtSr0CwjsW)(UCloud 优刻得旗下):按小时计费、关机不收费,单张 RTX 4090 约 1–3 元/小时(以[官方价格页](https://www.compshare.cn/price-list)为准),足够覆盖本仓库任务梯度的全部三档。
 
-`example/` 的全部运行发生在以下设备上(引自 [EXP-00 实验记录](example/experiments/EXP-00-phase0-env-mnist-smoke.md)):
+使用 CUDA 或 MPS 时,须确认该次冒烟真实使用了该设备。不可用或回退 CPU 时如实标注:这次运行可以按 CPU 路径满足 Phase 0,但不能写成 CUDA 或 MPS 已验证,也不能代替对计划使用的加速环境的验证。
+
+[CPU 准备实践](learning/preparation-practice.md) 与 Phase 0 的区别不在加速设备。准备实践使用 FashionMNIST,不要求固定 Phase 0 的 Python 与 torch / torchvision 版本,也不建立正式实验记录。完成准备实践不能自动勾选 Phase 0。
+
+`example/` 的全部运行发生在以下设备上(引自 [EXP-00 实验记录](example/experiments/EXP-00-phase0-env-mnist-smoke.md))。这是 MPS 历史证据:该记录里的冒烟脚本只在 MPS 可用时选择 MPS,否则选择 CPU,不会自动使用 CUDA;打印 `cuda available` 不等于脚本实际跑了 CUDA。下表不是本次文档修订做出的新 CPU、CUDA 或 MPS 验证:
 
 | 项目 | 值 |
 |---|---|
@@ -116,10 +119,10 @@ runs/        # 你的工作区 —— 你的实践闭环在这里进行
 
 ### Phase 0 —— 环境
 
-- **目标**:搭好一个版本固定、可复用整个闭环的 PyTorch 环境,并用分钟级的 MNIST 冒烟测试证明它可用。
-- **具体动作**:新建 conda 环境并固定 Python 版本 → 安装固定版本的 PyTorch / torchvision → 自检加速设备(CUDA 或 MPS)→ 用一个极小 CNN 在 MNIST 上跑通一次完整的前向 + 反向 + 评测。完整命令、自检与冒烟脚本见 [example 的 EXP-00 记录](example/experiments/EXP-00-phase0-env-mnist-smoke.md);数据集下载到仓库外,不要提交。遇到环境问题,按指南 Table 6 的顺序排查。
+- **目标**:搭好一个版本固定、可复用整个闭环的 PyTorch 环境,并用分钟级的 MNIST 冒烟测试证明它可用。CPU、CUDA、MPS 都是可选路径;Phase 0 不要求看到 GPU 或 MPS,也不承诺完整闭环的 CPU 性能。
+- **具体动作**:先用实验记录模板建好本次记录 → 新建 conda 环境并固定 Python 版本 → 安装固定版本的 PyTorch / torchvision → 记录实际设备;计划使用 CUDA 或 MPS 时确认冒烟真实跑在该设备上,不可用或回退 CPU 则如实标注 → 用一个极小 CNN 在仓库外的 MNIST 上跑通一次完整的前向 + 反向 + 评测。作者当次命令、自检与冒烟脚本见 [example 的 EXP-00 记录](example/experiments/EXP-00-phase0-env-mnist-smoke.md)。那是 MPS 历史运行,内联设备选择只有 MPS / CPU,不能当作 CUDA 自动选择脚本;记录正文里的旧退出标准只属于该次验证跑,当前读者标准以本节为准。本次修订没有新的设备验证。数据集下载到仓库外,不要提交。遇到环境问题,按指南 Table 6 的顺序排查。
 - **版本选择**:"固定版本"指把 Python 与 PyTorch / torchvision 都钉到明确版本号——照抄 `pip install torch torchvision` 只会装到当天最新,不算固定。作者验证跑(Apple Silicon / MPS)用的组合是 Python 3.11.15 + torch 2.12.1 + torchvision 0.27.1,固定命令示例:`conda create -y -n cvpractice python=3.11.15` + `conda activate cvpractice` + `pip install torch==2.12.1 torchvision==0.27.1`;历史命令与固定命令示例的对比见 EXP-00 的"复执行示例"一节。该组合只在 Apple Silicon 上验证过,不代表 CUDA / Windows 也适用:其他平台按 [PyTorch 官方安装入口](https://pytorch.org/get-started/locally/) 选平台与计算后端,再到[历史版本页](https://pytorch.org/get-started/previous-versions/)复制对应版本(含 CUDA 变体 `--index-url`)的固定命令,并把实际采用的版本记入实验记录。
-- **退出标准**:PyTorch 能看到 GPU 或 MPS;冒烟测试的前向传播跑通。
+- **退出标准**:正式实验记录写明实际 Python、torch / torchvision 版本和实际设备,并记录 MNIST 冒烟成功完成前向、反向与评测。CPU、CUDA、MPS 均可。只看到设备名称不算通过;不新增精度或时间门槛,目标里的分钟级只说明冒烟规模,不是退出条件。预期加速但回退到 CPU、且上述冒烟已在 CPU 上完成时,只按 CPU 路径通过,不证明计划中的加速环境。完成 FashionMNIST 准备实践不能代替本条。
 - **模板**:[templates/experiment-log-template.md](templates/experiment-log-template.md)(冒烟测试同样先建记录再跑)。
 - **指南**:§6.2、Table 6。
 

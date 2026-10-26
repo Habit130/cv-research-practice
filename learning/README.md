@@ -156,7 +156,7 @@ Save & Load 可以以后再读。Quickstart 留到准备实践,避免在两个�
 1. 需要走的准备节点都已按自检通过,或已有基础并在自己的笔记里写下跳过理由
 2. 读完 [理论指南](../计算机视觉科研入门指南.pdf)。本 README 的方法论只引用它的章节号
 3. 会在终端里进入目录、用 Git 做 clone / diff / commit / push / branch / pull request、用 conda 激活环境并说出版本
-4. 知道 Phase 0 的退出标准仍是原文:PyTorch 能看到 GPU 或 MPS,并且冒烟测试的前向传播跑通。CPU 准备实践不满足这一条
+4. 知道当前 Phase 0 门槛以 [README 的 Phase 0](../README.md#phase-0) 为准:先建正式实验记录,固定 Python 与 torch / torchvision 版本,并在仓库外用 MNIST 完成前向、反向与评测。CPU、CUDA、MPS 均可,不要求看到加速设备。FashionMNIST 准备实践不能自动满足固定版本、正式记录和 MNIST 冒烟
 
 然后按 README 建立 `runs/<任务>/`,复制计划模板,从 Phase 0 开始。正式实验仍先建 [实验记录](../templates/experiment-log-template.md),不要用准备实践的短记录代替。
 

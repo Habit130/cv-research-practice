@@ -9,7 +9,7 @@
 
 ## 各 Phase 退出标准核对
 
-- [ ] Phase 0 —— 环境:PyTorch 能看到 GPU 或 MPS;冒烟测试的前向传播跑通
+- [ ] Phase 0 —— 环境:按 [README 的 Phase 0](../README.md#phase-0) 当前标准核对。CPU、CUDA、MPS 均可,不以看到 GPU 或 MPS 作为门槛
 - [ ] Phase 1 —— 论文选读:完成 1–2 份必读笔记;不翻 PDF 也能说出种子论文的五要素(数据 / 任务 / 模型 / loss / 指标)
 - [ ] Phase 2 —— 代码复现:完整训练的指标接近参考数字,剩余差距能解释(数据、schedule、硬件还是随机种子)
 - [ ] Phase 3 —— 实验与记录:每份记录以条件化判断收尾,写清结果支持什么、不支持什么
