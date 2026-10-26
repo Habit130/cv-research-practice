@@ -1,6 +1,6 @@
 # Agent 模拟静态走查:零基础读者路径
 
-> **性质声明(先读)**:这是维护者测试记录,不是读者教程,也不是第二份学习导航。本次是 **DeepSeek Agent 模拟的零基础视角静态文档走查**,不是真实读者试读,不是安装/实操验证,不是视频观看记录,不是硬件或训练验证。样本为 1 个模型、1 次尝试;所有"读者会遇到"均为静态推断,未由真人验证。未安装 Python、Git、conda 或任何依赖,未执行任何学习练习命令,未创建练习仓库/PR,未登录第三方,未播放视频,未训练/评测/编译。
+> **性质声明(先读)**:这是维护者测试记录,不是读者教程,也不是第二份学习导航。本次是 **DeepSeek Agent 模拟的零基础视角静态文档走查**,不是真实读者试读,不是安装/实操验证,不是视频观看记录,不是硬件或训练验证。样本为 1 个模型、1 次原走查 + 1 次聚焦修订;所有"读者会遇到"均为静态推断,未由真人验证。未安装 Python、Git、conda 或任何依赖,未执行任何学习练习命令,未创建练习仓库/PR,未登录第三方,未播放视频,未训练/评测/编译。
 
 | 项目 | 值 |
 |---|---|
@@ -14,24 +14,26 @@
 | Tracker 身份 | `gh` 认证为 habit 的 GitHub 账号 `Habit098`;不代表模型自身是 GitHub 用户 |
 | 记录类型 | 维护者测试记录(非读者教材) |
 | 独立验收 | required(由 habit 另启;本记录不自评通过) |
+| 修订 | `#32-v1/a2` 聚焦修订(2026-10-26);只处理验收 Fail 的 PY-1 归因;原走查为 `#32-v1/a1` |
 
 ## 摘要
 
 - 读者入口链完整:根 `README.md` 把零基础读者分流到 `learning/README.md`,`learning/README.md` 的 Python → Git 与 GitHub → 环境与依赖三节顺序、锚点、下一步衔接均存在且可达;三节的主资料入口、练习、自检、下一步四类内容都有明确落点。
 - 指定外部主资料与备选均可读(正文完整、无需登录;用 `curl` 核对的页面返回 HTTP 200);视频只核公开页面与 view API,**未播放**,因此视频内章节/时间戳一律记为 `not checked`。
-- 静态走查记录了 6 条候选文档缺口(PY-1、GIT-2、ENV-1、PY-2、GIT-1、ENV-3),外加 1 条前置缺口(GIT-4)、1 条已声明限制(GIT-3)、1 条外部资料时效(PY-3)与 3 条非缺陷观察。候选缺口不等于真实读者失败;本次不设"必须发现问题"的门槛,也不据此声称读者可用性已验证。
+- 原走查记录了 6 条候选文档缺口;经 a2 事后核验,PY-1 因漏读 5.4/6.1 撤回,当前为 5 条(GIT-2、ENV-1、PY-2、GIT-1、ENV-3),外加 1 条前置缺口(GIT-4)、1 条已声明限制(GIT-3)、1 条外部资料时效(PY-3)与 3 条非缺陷观察。候选缺口不等于真实读者失败;本次不设"必须发现问题"的门槛,也不据此声称读者可用性已验证。
 - 三节点的练习与自检**均未实操**:Python 未安装/未写脚本,Git 未登录/未克隆/未推送,环境未安装 conda/未建环境。后两节点是在"前置未实测、条件性继续"下检查的,不能写成自检通过。
 - `access blocked` 计数为 0;视频未播放属于协议要求,不属于访问失败。
+- a2 修订只撤回 PY-1 的全范围归因并同步计数/优先项/PR 正文;新增 5.4/6.1 的事后来源记录,原始观察与页面副本未改。
 
-最值得先看的三条:
+最值得先看的三条(修订后):
 
-1. **PY-1(中)**:Python 练习要求读取"整数文本文件"并打印合计,但选读范围没有给出文本→整数的转换(`int(...)`)示例;按指定资料读完,读者只能靠先验补齐。
-2. **GIT-2(中)**:Git 练习要求"建一个 branch,把另一次提交推上去",但指定文字备选没有 `git push` 新分支的步骤;GitHub 的 PR 文档以"分支已在远端"为起点,视频又未核验。
-3. **ENV-1(中低)**:环境练习要求用 `conda list` 或 `pip show` 记录包版本,但 conda 指定四小节没有包版本查看的示范;页面别处的 `conda --version` 查的是 conda 自身版本,不是已安装包。
+1. **GIT-2(中)**:Git 练习要求"建一个 branch,把另一次提交推上去",但指定文字备选没有 `git push` 新分支的步骤;GitHub 的 PR 文档以"分支已在远端"为起点,视频又未核验。
+2. **ENV-1(中低)**:环境练习要求用 `conda list` 或 `pip show` 记录包版本,但 conda 指定四小节没有包版本查看的示范;页面别处的 `conda --version` 查的是 conda 自身版本,不是已安装包。
+3. **PY-2(中低)**:Python 练习要求安装第三方包并成功 `import`,但 9.2 的唯一安装示例是 `pip install Pillow`,页面未写实际导入名 `PIL`。
 
 ## 测试身份、上下文与污染声明
 
-本会话由 habit 在本轮新启动,启动提示声明为 Execution,并要求先读冻结 handoff、不预读历史测试结论。本会话未复用旧会话输出,未委派其他模型代测;实际可见的模型/客户端如上表。精确服务端模型 revision、量化与上下文长度在本地不可见,记为未知,不猜测。
+本会话由 habit 在 a1 启动,启动提示声明为 Execution,并要求先读冻结 handoff、不预读历史测试结论。本会话未复用旧会话输出,未委派其他模型代测;实际可见的模型/客户端如上表。a2 是同一 session 的聚焦修订,不是新冷启动。精确服务端模型 revision、量化与上下文长度在本地不可见,记为未知,不猜测。
 
 实际注入或预读的上下文:
 
@@ -93,16 +95,16 @@
 | 检查项 | 状态 | 主要定位 | 说明 |
 |---|---|---|---|
 | 主资料入口 | documented | `learning/README.md` L13 | 廖雪峰《Python 教程》;外部简介确为"中文,免费,零起点" |
-| 选读范围 | documented | L15–L24 | 列出 18 个章节/小节 URL;本次按最低练习读了其中 11 页,其余未读项见"未覆盖" |
+| 选读范围 | documented | L15–L24 | 列出 18 个章节/小节 URL;原走查按最低练习读了 11 页,a2 事后补核 5.4、6.1,共 13 页;其余未读项见"未覆盖" |
 | 练习:仓库外建文件夹 | documented | L26 | "在本仓库目录之外建一个文件夹" |
 | 练习:写 `.py` 并保存 | documented | 外部 4.1 文本编辑器 | 推荐 VS Code;保存为 `.py`;提醒不要用 Word/记事本 |
-| 练习:用函数读取整数文本文件 | **部分**:读取 `documented`,整数转换 `inferred` | 外部 6.2、13.1、5.1 | `def`/`open`/`readlines`/`strip` 有示例;`int(...)` 在指定范围内没有示例 |
+| 练习:用函数读取整数文本文件 | **documented**(读取/转换;组合未示范) | 外部 6.2、13.1、5.1;5.4、6.1(a2 事后补核) | `def`/`open`/`readlines`/`strip` 有示例;5.4 有 `birth = int(s)`,6.1 有"数据类型转换"与 `int('123')`;把文件行→整数→求和的组合未在所读页出现 |
 | 练习:用 list 保存 | documented | 外部 5.3 | list 定义、索引、`append`、`len` |
-| 练习:打印个数与合计 | **部分**:个数 `documented`,合计依赖整数列表 | 外部 5.3、5.6 | `len` 与 for 累加有示例,但示例直接对整数 list 求和 |
+| 练习:打印个数与合计 | **documented**(len/for;组合未示范) | 外部 5.3、5.6 | `len` 与 for 累加有示例;示例直接对整数 list 求和,未与文件读取组合 |
 | 练习:终端 `cd` 后运行 | documented | 外部 4、4.1 | `cd work`、`python hello.py`;找不到文件时切目录 |
 | 练习:`pip` 安装第三方包 | documented | 外部 9.2 | `pip install Pillow`;macOS/Linux 通常自带 pip |
 | 练习:`import` 成功 | **部分**:import 概念 `documented`,安装名/导入名对应 `inferred` | 外部 9.2 | 页面只写"就可以使用Pillow了";未写 `import PIL` |
-| 自检:缩进 / if / for / 函数 | documented | 外部 5.1、5.6、6.2 | 有语法与示例;未实操验证 |
+| 自检:缩进 / if / for / 函数 | documented | 外部 5.1、5.4(a2)、5.6、6.2 | 有语法与示例;未实操验证 |
 | 自检:终端进入目录运行 | documented | 外部 4、4.1 | 有命令与报错解释 |
 | 自检:读文本文件 | documented | 外部 13.1 | `open`/`read`/`readlines`/`with` |
 | 自检:安装并导入第三方包 | **部分**:依赖 PY-2 | 外部 9.2 | 概念有,名称对应无 |
@@ -169,11 +171,11 @@
 | 3 | 第一个 Python 程序 | <https://liaoxuefeng.com/books/python/first-program/index.html> | 命令行模式 vs 交互模式;`cd` 后 `python hello.py`;No such file 解释 | Windows 示例为主;macOS 需自行换 `python3` |
 | 4 | 使用文本编辑器 | <https://liaoxuefeng.com/books/python/first-program/text-editor/index.html> | 推荐 VS Code;保存 `.py`;`cd` 到目录运行;不用 Word/记事本 | 未安装/未实操 |
 | 5 | 输入和输出 | <https://liaoxuefeng.com/books/python/first-program/input-output/index.html> | `print()` 多参数、`input()` 提示;变量 | 练习为 `1024 * 768`,未做 |
-| 6 | 数据类型和变量 | <https://liaoxuefeng.com/books/python/basic/data-types/index.html> | 整数/浮点/字符串/布尔/空值;变量;`/`、`//`、`%` | **无 `int()`/`float()` 转换示例**(PY-1 依据) |
+| 6 | 数据类型和变量 | <https://liaoxuefeng.com/books/python/basic/data-types/index.html> | 整数/浮点/字符串/布尔/空值;变量;`/`、`//`、`%` | 本页无 `int()`/`float()` 转换示例;5.4/6.1 另有(a2 补核) |
 | 7 | list 和 tuple | <https://liaoxuefeng.com/books/python/basic/list-tuple/index.html> | list 定义、`len`、索引、`append`/`insert`/`pop` | 示例以字符串 list 为主 |
-| 8 | 循环 | <https://liaoxuefeng.com/books/python/basic/loop/index.html> | for 遍历 list/range;while;break/continue;整数 list 求和 | 未读 5.4/5.7 |
+| 8 | 循环 | <https://liaoxuefeng.com/books/python/basic/loop/index.html> | for 遍历 list/range;while;break/continue;整数 list 求和 | 原走查未读 5.4/5.7;5.4 已由 a2 补核 |
 | 9 | 定义函数 | <https://liaoxuefeng.com/books/python/function/define-function/index.html> | `def`、缩进、`return`、`None`、`from ... import`、`isinstance` | 无"函数内读文件"组合示例 |
-| 10 | 文件读写 | <https://liaoxuefeng.com/books/python/io/file/index.html> | `open`/`read`/`close`/`with`;`readlines()` + `strip()`;编码/写文件 | 无文本行→整数的示范 |
+| 10 | 文件读写 | <https://liaoxuefeng.com/books/python/io/file/index.html> | `open`/`read`/`close`/`with`;`readlines()` + `strip()`;编码/写文件 | 本页无文本行→整数的示范;5.4/6.1 另有转换知识(a2 补核) |
 | 11 | 安装第三方模块 | <https://liaoxuefeng.com/books/python/module/install/index.html> | `pip install Pillow`;"就可以使用Pillow了";Anaconda 段 `import numpy`;`sys.path` | 未写 `import PIL`;推荐 Anaconda 与下一节点取向不同 |
 | 12 | Git 视频公开页 | <https://www.bilibili.com/video/BV1ySLc6QEcB/> | `<title>` 与学习页标题一致;页面 HTTP 200 | **未播放**;播放器/登录限制未核验 |
 | 13 | Git 视频 view API | <https://api.bilibili.com/x/web-interface/view?bvid=BV1ySLc6QEcB> | title、owner `技术爬爬虾`、duration 2570、单 P、pubdate 2026-05-18、简介 | 仅元数据;`subtitle.list=[]`;无章节 |
@@ -188,6 +190,17 @@
 | 22 | conda Getting started | <https://docs.conda.io/projects/conda/en/stable/user-guide/getting-started.html> | 四节:Miniconda/Miniforge、Terminal、`conda create`、`conda activate`、`conda install`;Anaconda ToS 提示 | 英文;无 `conda list`/`pip show`;未安装 |
 | 23 | Miniforge README | <https://github.com/conda-forge/miniforge#install> | Install 一节:Unix `curl`/`wget` + `bash`;Windows exe;macOS PKG;`conda init` 提示;默认 conda-forge 通道 | 英文;`#install` 只核 raw README 标题,未在渲染页确认跳转;未运行安装器 |
 
+### a2 事后核验来源(不属于原走查)
+
+以下两页在 2026-10-26T02:44:16-0400 补读,用于核对验收 Fail 指出的 PY-1 归因;**不是** 2026-10-25 原走查的字节级副本。原始观察与 `pages/` 未改;补读证据单独保存在 worktree `.local/newcomer-walkthrough-repair-a2/`(`sources.md` SHA-256 `56c09d559d341df94cea1ce7454f7c4f7798daa3414c8fe7f226c95cb3c5f440`)。
+
+| 资料 | URL | 实际读到的正文 | 限制 |
+|---|---|---|---|
+| 5.4 条件判断 | <https://liaoxuefeng.com/books/python/basic/if/index.html> | HTTP 200;"再议 input":"必须先把 str 转换成整数。Python 提供了 int() 函数";代码 `s = input('birth: ')`、`birth = int(s)`;输入 `abc` 会得到 `ValueError` | 事后页面,非原走查副本;未运行代码 |
+| 6.1 调用函数 | <https://liaoxuefeng.com/books/python/function/call-function/index.html> | HTTP 200;小标题"数据类型转换";`int('123')` → `123`、`int(12.34)` → `12`、`float('12.34')` → `12.34` | 事后页面,非原走查副本;未运行代码 |
+
+结论:被测 `learning/README.md` L20 包含 5.4、L21 包含 6.1,两页都在指定选读范围内并明确文档化 `int()` 转换。原报告"指定范围没有 `int()`""只能靠先验""去范围外 5.2"三组断言不成立;PY-1 作为全范围缺口撤回(见下节)。
+
 访问限制汇总:`access blocked = 0`。评论/发帖需要登录(未使用),视频播放未核验(协议不要求),GitHub 写操作未执行(禁止实操),第三方登录未使用。
 
 ## 候选卡点
@@ -196,7 +209,6 @@
 
 | ID | 位置 | 触发 | 可能影响 | 可用替代路径 | 分类 / 强度 |
 |---|---|---|---|---|---|
-| **PY-1** | `learning/README.md` L26 练习 vs L20 选读范围;外部 5.1、13.1、5.6 | 按练习读取"整数文本文件",用 list 保存并打印合计 | 读出的行是字符串,直接求和会拼接或 `TypeError`;读者不知道要补 `int(...)`,也不知道该回哪一节 | 模型先验 `int(line)`;或读未列入范围的 5.2/官方文档 | 候选文档缺口 / 中 |
 | **GIT-2** | `learning/README.md` L51;外部《创建与合并分支》《创建拉取请求》 | 本地 `checkout -b` + commit 后,要把分支推上去并开 PR | 不知道 `git push origin <branch>`;GitHub 上看不到分支,PR 页也无从 compare;视频未核验 | 从 `git push -u origin master` 迁移(`inferred`);或查 GitHub 文档 | 候选文档缺口 / 中 |
 | **ENV-1** | `learning/README.md` L74/L76/L78;conda 四节;Miniforge README | 按练习用 `conda list` 或 `pip show` 记录包版本 | 四节没有包版本查看示范;读者可能把页面别处的 `conda --version` 当成包版本,或读不懂输出;自检"写出版本"可能被误判 | 练习已给出命令名,可直接运行;输出表通常自解释(`inferred`) | 候选文档缺口 / 中低 |
 | **PY-2** | `learning/README.md` L26;外部 9.2 | 按 9.2 唯一示例 `pip install Pillow` 后写 `import Pillow` | `ModuleNotFoundError`;读者可能以为安装失败 | 选安装名=导入名的包(`requests`/`numpy`,`inferred`);或查 PyPI 的 `PIL` | 候选文档缺口 / 中低 |
@@ -209,22 +221,34 @@
 | OBS-GIT-5 | L46 与《从远程库克隆》 | 练习说"空仓库",示例勾选 README | 按 Git 常识两者都可 clone(未实测);不影响完成 | — | 非缺陷观察 |
 | OBS-NODE-1 | Python 9.2 vs 环境 L76 | 9.2 推荐 Anaconda,环境页要求优先 Miniforge | 取向不同,但环境页已明确纠正;不构成矛盾 | 以环境页为准 | 非缺陷观察 |
 
+**PY-1 已撤回(a2 聚焦修订)**:原报告称"选读范围没有 `int()` 示例",并把替代路径指向范围外 5.2。验收指出被测学习页 L20/L21 已把 5.4、6.1 列入选读范围;a2 于 2026-10-26T02:44:16-0400 只读补核:5.4 有 `birth = int(s)` 和"必须先把 str 转换成整数"的说明,6.1 有"数据类型转换"与 `int('123')`。因此原断言不成立,PY-1 作为全范围缺口撤回,不计入当前 5 条候选文档缺口。保留的窄观察仅是:原走查实读的 5.1、13.1、5.6 没有把"文件行→整数→list→求和"串起来的组合示例;转换知识已在指定范围文档化,不是 `inferred`,也不能升级为确认缺陷。该修订不改变原始观察与页面副本。
+
 补充说明:
 
-- PY-1 的"指定范围没有 `int()` 示例"是本次实际检索结果:5.1 全文无 `int(`/`float(` 转换示例,13.1 只示范读取/`strip`,5.6 直接对整数 list 求和。模型知道 `int(line)` 可用,但这是 `inferred`,不计为文档覆盖。
+- 原走查未读 5.4、6.1 是事实;a2 的补读是**事后核验**,不能伪装成原走查已读。原报告据此把"未读"写成"指定范围没有",属于漏读造成的误报。
 - PY-2 的 `Pillow` 导入名 `PIL` 属于模型既有知识;指定页面未写。报告不把它写成"文档错误",只写"练习要求与唯一安装示例之间缺少名称对应"。
 - GIT-2/GIT-3 都可能被视频覆盖,但视频未播放、无公开字幕,不能写成"视频里讲过";这正是把它们列为候选而非定论的原因。
-- ENV-1 与 PY-2 的共同点是"命令/名称给了,但示范或对应关系没给";影响取决于读者先验,故强度低于 PY-1/GIT-2。
+- ENV-1 与 PY-2 的共同点是"命令/名称给了,但示范或对应关系没给";影响取决于读者先验,故强度低于 GIT-2。
+
+## a2 聚焦修订(2026-10-26)
+
+- 触发:独立验收对 `#32-v1/a1` 判 Fail(comment 6407306015),阻塞触发是 PY-1 的全范围缺失断言(BASE-DOCS、SIM-02、SIM-04 三项 Fail 同一触发);分类 Local defect,不是 P0/P1、规格阻塞或修复链耗尽。
+- 原判断:报告把"选读范围没有文本→整数转换、只能靠先验、替代路径是范围外 5.2"写成中等强度候选缺口,而原走查自己把 5.4、6.1 标为未读。
+- 事后补核:被测 `learning/README.md` L20 包含 5.4、L21 包含 6.1。2026-10-26T02:44:16-0400 只读重取两页,HTTP 200:5.4 有 `birth = int(s)` 和"必须先把 str 转换成整数"的说明;6.1 有"数据类型转换"与 `int('123')`。证据见 `worktree/.local/newcomer-walkthrough-repair-a2/sources.md`(SHA-256 `56c09d559d341df94cea1ce7454f7c4f7798daa3414c8fe7f226c95cb3c5f440`)。
+- 处置:撤回 PY-1 的全范围缺口归因,不计入当前 5 条候选文档缺口;保留窄观察——原走查实读的 5.1/13.1/5.6 没有"文件行→整数→list→求和"的组合示例,但转换知识已在指定范围文档化,不是 `inferred`,也不升级为确认缺陷。不同时制造新卡点。
+- 边界:5.4/6.1 是事后补读,不是原走查的字节级副本;原始观察 `raw-observations.md` 与 `pages/` 未改,原 digest `3e87d0c154b60af9149a87709458638dae9c0a4fe2c2e7b07ad22ac7ac645626` 保持不变。未改 `learning/README.md` 或其他读者文档,未重跑模拟,未安装/实操/播视频。
+- 同步修订:摘要候选数/优先列表、Python 覆盖矩阵、来源表第 6/8/10 行、候选表(移除 PY-1 行)、补充说明、未读清单、结论、PR 正文。其他候选(GIT-2、ENV-1、PY-2、GIT-1、GIT-4、GIT-3、ENV-3、PY-3)未扩大处理。
+- 本轮不声称 BASE-DOCS、SIM-02、SIM-04 已独立重新通过;是否重开与最终判定由复验 Acceptance 决定。
 
 ## 未覆盖与限制
 
 - **未安装/未实操**:没有安装 Python、Git、conda、PyTorch 或任何包;没有运行 `python`、`pip`、`git clone`、`git push`、`conda create`;没有创建练习仓库/PR;没有登录 GitHub。所有练习与自检均为静态覆盖判断。
 - **未播放视频**:只读公开页面与 view API;视频章节、时间戳、画面内容、播放器登录/地区限制均未核验。文字备选章节没有归到视频名下。
-- **未读全书**:Python 节点只读了支持最低练习的 11 页;未读 5.4、5.7、6.1、6.3、9、10.1、13.3;未读官方中文备选正文;未读 `learning/preparation-practice.md`、五个 Phase、理论指南 PDF、数学/PyTorch 节点。
-- **外部资料会变化**:页面内容、安装器、GitHub UI 与默认分支都可能更新;本记录只对 2026-10-25 读到的内容负责。仓库页记录的 2026-10-23 核查日未被本次重新认证。
+- **未读全书**:原走查只读了支持最低练习的 11 页;a2 事后补读 5.4、6.1(共 13 页);仍未读 5.7、6.3、9、10.1、13.3;未读官方中文备选正文;未读 `learning/preparation-practice.md`、五个 Phase、理论指南 PDF、数学/PyTorch 节点。
+- **外部资料会变化**:页面内容、安装器、GitHub UI 与默认分支都可能更新;原走查只对 2026-10-25 读到的内容负责,a2 补核只对 2026-10-26 的 5.4/6.1 两页负责。仓库页记录的 2026-10-23 核查日未被本次重新认证。
 - **模型先验不可消除**:本会话知道编程、Git、conda 的一般用法;报告用 `inferred` 标注需要先验补齐的地方,但不能证明"零基础真人也会同样卡住"。
-- **样本限制**:1 个模型、1 次尝试、1 个静态路径;没有真实读者、没有学习效果、没有可用性认证。记录到卡点不等于交付失败,零卡点也不等于读者可用。
-- **记录时间**:原始文件中的精确时间以本机 mtime 为准;未落盘页面的阅读时间用 `≈` 标注;报告不把近似值写成精确时间戳。
+- **样本限制**:1 个模型、1 次原走查 + 1 次聚焦修订;没有真实读者、没有学习效果、没有可用性认证。记录到卡点不等于交付失败,零卡点也不等于读者可用。
+- **记录时间**:原始文件中的精确时间以本机 mtime 为准;未落盘页面的阅读时间用 `≈` 标注;a2 补读时间单独记录,不写回原观察。
 
 ## 记录完整性与可复核指针
 
@@ -234,6 +258,9 @@
 | 原始观察 SHA-256 | `3e87d0c154b60af9149a87709458638dae9c0a4fe2c2e7b07ad22ac7ac645626` |
 | 大小/行数 | 39,411 bytes / 316 行 |
 | 页面抓取副本 | worktree `.local/newcomer-walkthrough/pages/`(22 个文件,HTML/JSON/纯文本) |
+| a2 事后来源(未提交) | worktree `.local/newcomer-walkthrough-repair-a2/sources.md`,SHA-256 `56c09d559d341df94cea1ce7454f7c4f7798daa3414c8fe7f226c95cb3c5f440` |
+| a2 页面副本(未提交) | 同目录 `pages/`(if.html / if.txt / call-function.html / call-function.txt,4 个文件) |
+| 原观察 digest 重核 | 仍为 `3e87d0c154b60af9149a87709458638dae9c0a4fe2c2e7b07ad22ac7ac645626`(未改) |
 | 预测试记录时间 | 2026-10-25 22:14:37–22:14:59(本地) |
 | 被测 commit | `dd27de016684aeffa270c2bbb3b4469c485ea021` |
 
@@ -245,14 +272,16 @@
 
 | 检查 | 命令 | 结果 |
 |---|---|---|
-| 工作区忽略 | `git check-ignore -v .local/newcomer-walkthrough/raw-observations.md` | 命中 `.gitignore:2:.local/*` |
+| 工作区忽略 | `git check-ignore -v .local/newcomer-walkthrough/raw-observations.md .local/newcomer-walkthrough-repair-a2/sources.md` | 两处均命中 `.gitignore:2:.local/*` |
 | 提交前空白检查 | `git diff --cached --check` | exit 0(暂存后) |
-| 提交后空白检查 | `git diff --check origin/main...HEAD` | exit 0 |
+| 提交后空白检查 | `git diff --check origin/main...HEAD` | 见交回(a2 提交后重跑) |
 | 单文件范围 | `git diff --name-only origin/main...HEAD` | 仅 `docs/validation/newcomer-agent-static-walkthrough.md` |
-| 报告 diff | `git diff origin/main...HEAD -- docs/validation/newcomer-agent-static-walkthrough.md` | 单文件新增;命令与完整输出见 Issue #32 交回 |
+| 报告 diff | `git diff origin/main...HEAD -- docs/validation/newcomer-agent-static-walkthrough.md` | 单文件;完整输出见 Issue #32 交回 |
+| a2 聚焦修订 diff | `git diff b94795c0738fc72f4668ccc4018a20fc10f8db67..HEAD -- docs/validation/newcomer-agent-static-walkthrough.md` | 见交回;只应包含 PY-1 撤回及同步措辞 |
+| 原始观察 digest | `shasum -a 256 .local/newcomer-walkthrough/raw-observations.md` | 仍为 `3e87d0c…`;见交回 |
 | 本地链接/锚点 | 检查报告中的相对链接与 `#python`/`#git-github`/`#env`/`#math-dl` | 报告无相对 markdown 链接;4 个锚点均存在;引用的 `README.md`、`learning/README.md`、`learning/preparation-practice.md` 均存在 |
 | 禁收产物 | 检查 diff 无数据/权重/checkpoint/缓存/凭据/任务代码/嵌套仓库 | 1 个 UTF-8 文本文件;无二进制/子模块/凭据模式 |
-| 审查 | exact head 请求 `@cursor review`,读取收据并处置 | 见交回;不可用则如实记录 |
+| 审查 | 对新 exact head 请求 `@cursor review`,读取收据并处置 | 见交回;账号不匹配则如实记录 |
 
 ## 准则证据矩阵
 
@@ -261,16 +290,16 @@
 | Criterion | 主要证据 | 结果 |
 |---|---|---|
 | **BASE-EVIDENCE** | 本文件的 BASE×6 + SIM×6 矩阵;每行指向报告章节、原始观察 O1–O13 或命令 | Pass |
-| **BASE-VERIFY** | 测试前记录(22:14)先于 README;三节点外部资料实际读取;原始观察先保存并计算 SHA-256;`git diff --check`/范围/单文件检查;`@cursor review` 请求与收据见 Issue #32 | Pass(审查结果见交回) |
-| **BASE-SEVERITY** | 仅新增一份维护者记录;无数据/权重/checkpoint/缓存/凭据/任务代码;未编造运行结果;未把 Agent 模拟写成真人/硬件验证;Codex 发现按交付评论处置 | Pass(待审查收据) |
-| **BASE-SCOPE** | 唯一提交 `docs/validation/newcomer-agent-static-walkthrough.md`;README/learning/templates/example/runs/CONTEXT/AGENTS/ADR 未改;未安装/未实操/metadata 未动;#7 未恢复;不合并 | Pass |
-| **BASE-DOCS** | 报告写明被测 commit、协议、`documented`/`inferred`/`not checked`、访问日期与限制;不替代 README/learning,不改变学习要求或 Phase 标准,不是第二份教材 | Pass |
+| **BASE-VERIFY** | 测试前记录(22:14)先于 README;三节点外部资料实际读取;原始观察先保存并计算 SHA-256;`git diff --check`/范围/单文件检查;a2 补核 5.4/6.1 并单列事后证据;`@cursor review` 请求与收据见 Issue #32 | Pass(审查结果见交回;a2 限制见修订节) |
+| **BASE-SEVERITY** | 仅新增一份维护者记录;无数据/权重/checkpoint/缓存/凭据/任务代码;未编造运行结果;未把 Agent 模拟写成真人/硬件验证;无 review findings 可处置 | Pass(待审查收据) |
+| **BASE-SCOPE** | 唯一提交 `docs/validation/newcomer-agent-static-walkthrough.md`;README/learning/templates/example/runs/CONTEXT/AGENTS/ADR 未改;未安装/未实操/metadata 未动;#7 未恢复;不合并;a2 未新建交付链 | Pass |
+| **BASE-DOCS** | 报告写明被测 commit、协议、`documented`/`inferred`/`not checked`、访问日期与限制;不替代 README/learning,不改变学习要求或 Phase 标准,不是第二份教材;a2 已撤回 PY-1 全范围归因并单列事后来源 | Pass(a2 修订;复验待) |
 | **BASE-PR** | 单一 feature branch/PR;英文 Conventional Commit 标题;PR 含中文 Motivation/Changes/Verification 与 `Closes #32`;issue/PR 保持打开,释放写所有权 | Pass(交付面) |
-| **SIM-01** | 启动声明为 habit 新启 Execution;报告列出实际模型/客户端/未知 revision、预读治理/契约、禁止读取项、预测试记录时间与路径;未声称先验已消除 | Pass |
-| **SIM-02** | 访问链 README → `#python` → `#git-github` → `#env`;每节点覆盖主资料/范围/练习/自检/下一步;逐项 `documented`/`inferred`/`not checked`;前节点未实操,后节点条件性继续 | Pass |
+| **SIM-01** | a1 启动声明为 habit 新启 Execution;a2 为同一 session 的聚焦修订,不是新冷启动;报告列出实际模型/客户端/未知 revision、预读治理/契约、禁止读取项、预测试记录时间与路径;未声称先验已消除 | Pass |
+| **SIM-02** | 访问链 README → `#python` → `#git-github` → `#env`;每节点覆盖主资料/范围/练习/自检/下一步;逐项 `documented`/`inferred`/`not checked`;前节点未实操,后节点条件性继续;a2 补核 5.4/6.1,转换改为 `documented` | Pass(a2 修订;复验待) |
 | **SIM-03** | 外部来源限于学习页指定主资料/备选;URL、访问日期、实际正文摘要、限制表;视频未播放且未把文字备选冒充视频;无登录/付费/TLS 绕过;无全网补资料 | Pass |
-| **SIM-04** | 原始观察先于本报告保存;路径、SHA-256、39,411 bytes/316 行;候选卡点有位置/触发/影响/替代/分类;区分缺口、访问限制、模型限制;允许零卡点 | Pass |
+| **SIM-04** | 原始观察先于本报告保存;路径、SHA-256、39,411 bytes/316 行;候选卡点有位置/触发/影响/替代/分类;区分缺口、访问限制、模型限制;允许零卡点;a2 撤回 PY-1 且原 digest 未变 | Pass(a2 修订;复验待) |
 | **SIM-05** | 顶部显著标注 Agent 模拟静态测试;未声称真实读者/视频观看/教程实跑/安装成功/硬件验证;仅一份报告入库;本地链接检查与单文件 diff 见交回;无敏感信息 | Pass |
 | **SIM-06** | 契约/digest、base/branch/worktree/PR/exact head、矩阵、命令输出、上下文/访问限制、原始观察路径/digest、审查收据/发现处置、后续候选项写入 Issue #32 交回;Independent acceptance 仍 required | Pass(交付面) |
 
-结论:文档骨架与入口链完整,三节点均可静态走通;发现的 6 条候选缺口集中在"练习需要但指定资料未示范"的环节,不构成对仓库整体结构的否定。测试路径的卡点可作为有效观察交付,不自动触发修复;本次未改读者文档。等待 habit 另启独立 Acceptance。
+结论:文档骨架与入口链完整,三节点均可静态走通;原走查的 6 条候选缺口中,PY-1 经 a2 事后核验撤回,当前为 5 条,集中在"练习需要但指定资料未示范"的环节,不构成对仓库整体结构的否定。测试路径的卡点可作为有效观察交付,不自动触发修复;本次未改读者文档。等待 habit 启动复验/Independent acceptance。
