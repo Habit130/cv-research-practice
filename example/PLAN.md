@@ -63,3 +63,7 @@
   - #24 已 Completed:PR #25 已由 habit squash-merge 至 `608b5af4a94c9ec37c18bc974bbf7205c3b3c2fe`(2026-10-17),编排已在 origin/main 核对五份交付文件与 reviewed head `9cdd9c2` 一致;本次未重编译、训练或评测。
   - 本次收尾(分支 `docs/release-finalization`,PR 待合并):移除 README 顶部建设中横幅,并同步其完成范围段落中的发布状态;GitHub description/topics 已按批准配置(非 Git 改动,已落地)。发布批准、metadata 已落地、文档待合并、最终落地完成四种状态互相区分:文档改动经合并并由编排在 origin/main 核对后,才记录整体发布完成。
   - 边界不变:科学结论、指标、读者 Phase 退出标准与既有验证范围未变;#7 脱稿复述未验证、#11 的 OpenCode/MPS 有条件测试、Phase 2 参考差距与单 seed 限制仍适用,本次不代表 CUDA/Windows 或所有客户端已验证。
+- 2026-10-25 —— 当前标准与发布落地补记(#30):以下为补记。上文实验计划、退出标准与全部进度原文保留,不改当次结果。
+  - 上文 Phase 0 的“PyTorch 能看到 GPU 或 MPS”是作者当次 MPS 验证跑的历史标准,不是当前读者的通用门槛,也不强制读者使用加速设备。当前通用标准见 [README 的 Phase 0](../README.md#phase-0):CPU、CUDA、MPS 均为可选路径,以正式 MNIST 冒烟记录为准。
+  - 正式发布已经合并并核对完成:[PR #26](https://github.com/Habit130/cv-research-practice/pull/26) 由 habit 于 2026-10-17 squash-merge 至 `4b0326b7cf334e59106cda8263387a4b0e3e6d83`,[#12 完成记录](https://github.com/Habit130/cv-research-practice/issues/12#issuecomment-6230965592) 已在 origin/main 核对落地,#12 Completed。上文“PR 待合并”是当时的状态快照,不回写。
+  - 边界仍在:#7 以脱稿复述未验证挂起([#7 决定](https://github.com/Habit130/cv-research-practice/issues/7#issuecomment-6227454969));论文“相关性 / 贡献 / 局限”个人判断跳过;OpenCode / MPS 冷启动只覆盖该次条件;未经 CUDA / Windows 验证。本补记不是新的发布操作,也不是新的 CPU / CUDA / MPS 验证。
